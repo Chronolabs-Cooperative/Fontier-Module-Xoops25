@@ -1,0 +1,13 @@
+php_value memory_limit 256M
+php_value upload_max_filesize 29M
+php_value post_max_size 50M
+php_value display_errors 1
+php_value log_errors 1
+php_value error_reporting 1
+
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*?).(7z|ar|bz2|gz|lzma|lz|lzo|tar|tar.7z|tar.Z|tar.bz2|tar.gz|tar.lz|tar.lzma|tar.lzo|tar.xz|tgz|zip|rar|rar5|exe|zoo|zx)	../download.php?id=$1&pack=$2	[L|NC|QSA]

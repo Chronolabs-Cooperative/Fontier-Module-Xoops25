@@ -1,0 +1,47 @@
+############################################################################################################################
+#
+#  Chronolabs Cooperative Fontier+
+#
+#  You may not change or alter any portion of this comment or credits
+#  of supporting developers from this source code or any supporting source code
+#  which is considered copyrighted (c) material of the original comment or credit authors.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# 
+#  @copyright       Chronolabs Cooperative http://labs.coop
+#  @license         General Public License version 3 (http://labs.coop/briefs/legal/general-public-licence/13,3.html)
+#  @package         fontier+
+#  @since           1.0.1
+#  @author          Simon Roberts <wishcraft@users.sourceforge.net>
+#  @subpackage		fontier+
+#  @description		XOOPS Client for Fonts REST API - http://fonts.labs.coop
+#  @link			http://fonts.labs.coop
+#  @link			http://sourceforge.net/projects/chronolabs
+#  @link			http://cipher.labs.coop
+# 
+############################################################################################################################
+php_value memory_limit 360M
+php_value error_reporting 0
+php_value display_errors 0
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^bin/(.*?)/(font).ufo/(.*?)$							$2.php?mode=ufo&clause=$1&path=$3			[L,NC,QSA]
+RewriteRule ^bin/(.*?)/(font).(.*?)?(.*?)$							$2.php?mode=$3&clause=$1&$4					[L,NC,QSA]
+RewriteRule ^bin/(.*?)/(font).(.*?)$								$2.php?mode=$3&clause=$1					[L,NC,QSA]
+RewriteRule ^css/(.*?)/(.*?).(css)?(.*?)$							$3.php?clause=$1&$4							[L,NC,QSA]
+RewriteRule ^css/(.*?)/(.*?).(css)$									$3.php?clause=$1							[L,NC,QSA]
+RewriteRule ^api/(.*?)/(callback).api?(.*?)$						$2.php?mode=$1&$3							[L,NC,QSA]
+RewriteRule ^api/(.*?)/(callback).api$								$2.php?mode=$1								[L,NC,QSA]
+RewriteRule ^(download)/([0-9]+)$									$1.php?mode=$1&clause=$2					[L,NC,QSA]
+RewriteRule ^([0-9a-z]+)/upload.html$								index.php?mode=upload&clause=$1				[L,NC,QSA]
+RewriteRule ^([0-9a-z]+)/surveys.html$								index.php?mode=surveys&clause=$1			[L,NC,QSA]
+RewriteRule ^([0-9a-z]+)/survey.html$								index.php?mode=survey&clause=$1				[L,NC,QSA]
+RewriteRule ^([0-9a-z]+)/(.*?)/font.html$							index.php?mode=font&clause=$1&name=$2		[L,NC,QSA]
+RewriteRule ^([0-9a-z]+)/node.html$									index.php?mode=node&clause=$1				[L,NC,QSA]
+RewriteRule ^(keys|fixes|typal)/nodes.html$							index.php?mode=nodes&clause=$1				[L,NC,QSA]
+RewriteRule ^index.html$											index.php?mode=index						[L,NC,QSA]
+

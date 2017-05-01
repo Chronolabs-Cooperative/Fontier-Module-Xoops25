@@ -1,0 +1,13 @@
+php_value memory_limit 256M
+php_value upload_max_filesize 29M
+php_value post_max_size 50M
+php_value display_errors 1
+php_value log_errors 1
+php_value error_reporting 1
+
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.*?).(png|jpg|gif)						../preview.php?id=$1&format=$2				[L,NC,QSA]
