@@ -66,34 +66,36 @@
 						{
 							$index = $indexesHandler->create();
 							$index->setVar('base', $font->getVar('base'));
-							$index->addFontID($font->getVar('id'));
+							$index = $identitiesHandler->get($identitiesHandler->insert($index, true))->addFontID($font->getVar('id'));
 						} else {
 							$index = $indexesHandler->getByBase($font->getVar('base'));
 							$index->addFontID($font->getVar('id'));
 						}
-						$identitiesHandler->insert($index, true);
+						$first_id = $identitiesHandler->insert($index, true);
 						$criteria = new Criteria('base', $font->getVar('second'));
 						if ($indexesHandler->getCount($criteria) == 0)
 						{
 							$index = $indexesHandler->create();
 							$index->setVar('base', $font->getVar('second'));
-							$index->addFontID($font->getVar('id'));
+							$index->setVar('parent_id', $first_id);
+							$index = $identitiesHandler->get($identitiesHandler->insert($index, true))->addFontID($font->getVar('id'));
 						} else {
 							$index = $indexesHandler->getByBase($font->getVar('second'));
 							$index->addFontID($font->getVar('id'));
 						}
-						$identitiesHandler->insert($index, true);
+						$second_id = $identitiesHandler->insert($index, true);
 						$criteria = new Criteria('base', $font->getVar('thirds'));
 						if ($indexesHandler->getCount($criteria) == 0)
 						{
 							$index = $indexesHandler->create();
 							$index->setVar('base', $font->getVar('thirds'));
-							$index->addFontID($font->getVar('id'));
+							$index->setVar('parent_id', $second_id);
+							$index = $identitiesHandler->get($identitiesHandler->insert($index, true))->addFontID($font->getVar('id'));
 						} else {
 							$index = $indexesHandler->getByBase($font->getVar('thirds'));
 							$index->addFontID($font->getVar('id'));
 						}
-						$identitiesHandler->insert($index, true);
+						$third_id = $identitiesHandler->insert($index, true);
 					}
 				}
 			}

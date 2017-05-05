@@ -21,46 +21,10 @@
  * @link			http://internetfounder.wordpress.com
  */
 
-if (!defined('XOOPS_ROOT_PATH')) {
-	die("XOOPS root path not defined");
-}
-
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'header.php';
-
-function fontier_notify_iteminfo($category, $item_id)
-{
-	if ($category == 'global') {
-		$item['name'] = '';
-		$item['url'] = '';
-		return $item;
-	}
-
-	if ($category=='new_index') {
-		$indexesHandler = xoops_getModuleHandler('indexes' ,basename(dirname(__DIR__)));
-		if ($index = $indexesHandler->get($item_id))
-		{
-			$item['name'] = $index->getVar('base');
-			$item['url'] = $index->getIndexBrowseURL();
-			$index->setVar('notified', time());
-			$indexesHandler->insert($index, true);
-			return $item;
-		} else {
-			return null;
-		}
-	}
-	
-	if ($category=='new_font') {
-		$identitiesHandler = xoops_getModuleHandler('identities' ,basename(dirname(__DIR__)));
-		if ($identity = $identitiesHandler->get($item_id))
-		{
-			$item['name'] = $identity->getVar('name');
-			$item['url'] = $identity->getFontBrowseURL();
-			$identity->setVar('notified', time());
-			$identitiesHandler->insert($identity, true);
-			return $item;
-		} else {
-			return null;
-		}
-	}	
-}
-?>
+define('_MB_FONTIER_NUMBER','Number of Items:');
+define('_MB_FONTIER_DISPLAY','Display Method:');
+define('_MB_FONTIER_NAMING','Naming Image');
+define('_MB_FONTIER_TEXT','Textual Context');
+define('_MB_FONTIER_FONT_NAME', 'Font Name');
+define('_MB_FONTIER_FONT_VIEWS', 'Font Views');
+define('_MB_FONTIER_FONT_DOWNLOADS', 'Font Downloads');

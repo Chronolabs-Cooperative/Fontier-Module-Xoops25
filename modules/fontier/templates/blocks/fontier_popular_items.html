@@ -1,0 +1,48 @@
+<{if $block.display == 'naming'}>
+	<div id="outer" class="outer">
+		<table width="100%" id='fontierblocktablenaming' class="fontier newitems">
+			<tbody>
+			<{foreach from=$block.items item=font}>
+				<tr style="vertical-align: middle;" class="<{cycle values='even,odd'}>">
+					<td style="text-align: center;" class="<{cycle values='even,odd'}>">
+						<a href="<{$font.url}>" target="_blank"><img src="<{$font.naming}>" width="95%" title="<{$smarty.const._MB_FONTIER_FONT_VIEWS}>: <{$font.views}>, <{$smarty.const._MB_FONTIER_FONT_DOWNLOADS}>: <{$font.downloads}>" alt="<{$smarty.const._MB_FONTIER_FONT_VIEWS}>: <{$font.views}>, <{$smarty.const._MB_FONTIER_FONT_DOWNLOADS}>: <{$font.downloads}>"/></a>
+					</td>
+				</tr>
+			<{/foreach}>
+			</tbody>
+		</table>
+	</div>
+<{elseif $block.display == 'text'}>
+	<div id="outer" class="outer">
+		<table width="100%" id='fontierblocktabletextual' class="fontier newitems">
+			<thead>
+				<th style="vertical-align: middle;" class="head">
+					<td style="text-align: center; width: 62%;" class="head">
+						<{$smarty.const._MB_FONTIER_FONT_NAME}>
+					</td>
+					<td style="text-align: center;" class="head">
+						<{$smarty.const._MB_FONTIER_FONT_VIEWS}>
+					</td>
+					<td style="text-align: center;" class="head">
+						<{$smarty.const._MB_FONTIER_FONT_DOWNLOADS}>
+					</td>
+				</th>
+			</thead>
+			<tbody>
+			<{foreach from=$block.items item=font}>
+				<tr style="vertical-align: middle;" class="<{cycle values='even,odd'}>">
+					<td style="text-align: center; width: 62%;" class="<{cycle values='even,odd'}>">
+						<a href="<{$font.url}>" target="_blank"><{$font.name}></a>
+					</td>
+					<td style="text-align: center;" class="<{cycle values='even,odd'}>">
+						<a href="<{$font.url}>" target="_blank"><{$font.views}></a>
+					</td>
+					<td style="text-align: center;" class="<{cycle values='even,odd'}>">
+						<a href="<{$font.url}>" target="_blank"><{$font.downloads}></a>
+					</td>
+				</tr>
+			<{/foreach}>
+			</tbody>
+		</table>
+	</div>
+<{/if}>

@@ -35,8 +35,8 @@ require_once (__DIR__ . DIRECTORY_SEPARATOR . 'objects.php');
  * <code>
  * CREATE TABLE `fontier_indexes` (
  *   `id` mediumint(24) NOT NULL AUTO_INCREMENT,
+ *   `parent_id` mediumint(24) NOT NULL DEFAULT '0',
  *   `base` varchar(3) DEFAULT '',
- *   `ids` mediumtext,
  *   `fonts` int(13) DEFAULT '0',
  *   `last` int(13) DEFAULT '0',
  *   `downloads` int(13) DEFAULT '0',
@@ -57,8 +57,8 @@ class fontierIndexes extends fontierXoopsObject
     {   	
     	
         self::initVar('id', XOBJ_DTYPE_INT, null, false);
+        self::initVar('parent_id', XOBJ_DTYPE_INT, null, false);
         self::initVar('base', XOBJ_DTYPE_TXTBOX, null, false, 3);
-        self::initVar('ids', XOBJ_DTYPE_ARRAY, array(), false);
         self::initVar('fonts', XOBJ_DTYPE_INT, null, false);
         self::initVar('last', XOBJ_DTYPE_INT, null, false);
         self::initVar('downloads', XOBJ_DTYPE_INT, 0, false);
@@ -84,16 +84,17 @@ class fontierIndexes extends fontierXoopsObject
     	if (empty($id))
     		return false;
     	
-    	$ids = $this->getVar('ids');
-    	$ids[] = $id;
-    	sort(array_unique($ids));
-    	array_unique($ids);
-    	$this->setVar('ids', $ids);
-    	
-    	$this->setVar('fonts', $this->getVar('fonts')+1);
-    	$this->setVar('last', time());
-    	
-    	return true;
+    	$identitiesindexeshandler = xoops_getModuleHandler('identities_indexes', __MD_FONTIER_MODULE_DIRNAME);
+    	$obj = $identitiesindexeshandler->create();
+    	$obj->setVar('index_id', $this->getVar('id'));
+    	$obj->setVar('identity_id', $id);
+    	if ($identitiesindexeshandler->insert($obj))
+    	{
+	    	$this->setVar('fonts', $this->getVar('fonts')+1);
+	    	$this->setVar('last', time());
+    		return true;
+    	}
+    	return false;
     }
 	
     
@@ -204,8 +205,10 @@ class fontierIndexesHandler extends fontierXoopsObjectHandler
     	if (empty($base))
     		return false;
     	
+    	$limit = !isset($_GET['limit'])?30:(integer)$_GET['limit'];
+    		
     	if ($fontierConfigsList['htaccess']) {
-    		return XOOPS_URL . '/' . $fontierConfigsList['base'] . '/index/0/30/' . urlencode($base) . '.' . $fontierConfigsList['html'];
+    		return XOOPS_URL . '/' . $fontierConfigsList['base'] . '/index/0/'.$limit.'/' . urlencode($base) . '.' . $fontierConfigsList['html'];
     	}
     	return XOOPS_URL . '/modules/' . _MD_FONTIER_MODULE_DIRNAME. '/?op=index&start=0&limit=30&base=' . urlencode($base);
     }

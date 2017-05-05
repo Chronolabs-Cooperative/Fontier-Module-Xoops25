@@ -317,7 +317,7 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
     	$return = array();
     	$result = $GLOBALS['xoopsDB']->queryF($sql);
     	while($row = $GLOBALS['xoopsDB']->fetchArray($result))
-    		$return[$row['index']] = array('url'=>xoops_getModuleHandler('indexes',_MD_FONTIER_MODULE_DIRNAME)->getIndexBrowseURL($row['index']), 'count' => $row['num']);
+    		$return[$row['index']] = array('url'=>xoops_getModuleHandler('indexes',_MD_FONTIER_MODULE_DIRNAME)->getIndexBrowseURL($row['index']), 'count' => $row['num'], 'base' => $row['index']);
     	return $return;
     }
 }

@@ -27,19 +27,11 @@ if (!defined('XOOPS_ROOT_PATH')) {
 	die("XOOPS root path not defined");
 }
 
-include_once NW_MODULE_PATH . '/class/class.newsstory.php';
+function fontier_com_update($story_id, $total_num){
 
-function nw_com_update($story_id, $total_num){
-	$story_id = intval($story_id);
-	$total_num = intval($total_num);
-	$article = new nw_NewsStory($story_id);
-	if (!$article->updateComments($total_num)) {
-		return false;
-	}
-	return true;
 }
 
-function nw_com_approve(&$comment){
+function fontier_com_approve(&$comment){
 	// notification mail here
 }
 ?>

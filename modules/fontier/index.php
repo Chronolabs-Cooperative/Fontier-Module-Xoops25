@@ -26,57 +26,57 @@
 	set_time_limit(8444);
 	
 	global $fontierConfigsList;
-	
-	if (!isset($_GET['id']))
-	{
-		redirect_header(XOOPS_URL . '/modules/'._MD_FONTIER_MODULE_DIRNAME.'/index.php', 4, _ERR_FONTIER_PREVIEW_NOIDSPECIFIED);
-		exit(0);
-	}
-	
-	$identitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
-	
-	if (!$font = $identitiesHandler->get($_GET['id']) || (!empty($font) && $font->getVar('identity') == "" && $font->getVar('polled') == 0))
-	{
-		redirect_header(XOOPS_URL . '/modules/'._MD_FONTIER_MODULE_DIRNAME.'/index.php', 4, _ERR_FONTIER_PREVIEW_IDNOTFOUND);
-		exit(0);
-	}
+
+	$start = !isset($_GET['start'])?0:(integer)$_GET['start'];
+	$limit = !isset($_GET['limit'])?30:(integer)$_GET['limit'];
+	$base = !isset($_GET['base'])?null:(string)$_GET['base'];
 	
 	if ($fontierConfigsList['htaccess']) {
-		if (!strpos($font->getFontURL('id'), $_SERVER['REQUEST_URI'])) {
-			header('Location: ' . $font->getFontURL('id'));
-			exit(0);
+		
+		if (is_null($base))
+		{
+			$url = XOOPS_URL . '/' . $fontierConfigsList['base'] . '/index.html';
+			if (!strpos($url, $_SERVER['REQUEST_URI'])) {
+				header('Location: ' . $url);
+				exit(0);
+			}
+		} else {
+			$url = XOOPS_URL . '/' . $fontierConfigsList['base'] . "/$start/$limit/$base/index.html";
+			if (!strpos($url, $_SERVER['REQUEST_URI'])) {
+				header('Location: ' . $url);
+				exit(0);
+			}
 		}
+		
 	}
 
-	$xoopsOption['template_main'] = 'fontier_font.html';
-	include $GLOBALS['xoops']->path('/header.php');		
-	$GLOBALS['xoTheme']->addScript(XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js");
-	$GLOBALS['xoTheme']->addScript(XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.ui.js");
-	$GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . "/modules/" . _MD_FONTIER_MODULE_DIRNAME . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/style.css');
-	
-	$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', 'Font: ' . $font->getVar('name'));
-	$GLOBALS['xoopsTpl']->assign('name', $font->getVar('name'));
-	$GLOBALS['xoopsTpl']->assign('diz', $font->getVar('diz'));
-	$GLOBALS['xoopsTpl']->assign('css', $font->getVar('css'));
-	$GLOBALS['xoopsTpl']->assign('css_url', $font->getCSSURL());
-	$GLOBALS['xoopsTpl']->assign('preview', $font->getPreviewURL($fontierConfigsList['image_format']));
-	$GLOBALS['xoopsTpl']->assign('naming', $font->getNamingURL($fontierConfigsList['image_format']));
-	$GLOBALS['xoopsTpl']->assign('downloads', $font->getDownloadURLsArray(explode(",",$fontierConfigsList['download_formats']), ucwords(strtolower($font->getVar('name')))));
-	$GLOBALS['xoopsTpl']->assign('glyphs', $font->getGlyphsURLArray($fontierConfigsList['image_format']));
-	
-	// get Breadcrumbs as well as navigational indexes
-	$indexesHandler= xoops_getModuleHandler('indexes',_MD_FONTIER_MODULE_DIRNAME);
-	$GLOBALS['xoopsTpl']->assign('others', $indexesHandler->getFontsURLsFromBase($font->getVar('thirds'), $_GET['id']));
-	$index = $indexesHandler->getByBase($font->getVar('thirds'));
-	$GLOBALS['xoopsTpl']->assign('total', $index->getVar('fonts'));
-	$indexes = $indexesHandler->getIndexesArrayByBase($font->getVar('seconds'));
-	$GLOBALS['xoopsTpl']->assign('indexes', $indexes);
-	$GLOBALS['xoopsTpl']->assign('base', $font->getVar('base'));
-	$GLOBALS['xoopsTpl']->assign('base_url', $indexesHandler->getIndexBrowseURL($font->getVar('base')));
-	$GLOBALS['xoopsTpl']->assign('second', $font->getVar('seconds'));
-	$GLOBALS['xoopsTpl']->assign('second_url', $indexesHandler->getIndexBrowseURL($font->getVar('seconds')));
-	include $GLOBALS['xoops']->path('/footer.php');
-	$font->addViewCount(1);
-	exit(0);
+	if (is_null($base))
+	{
+		$xoopsOption['template_main'] = 'fontier_index.html';
+		include $GLOBALS['xoops']->path('/header.php');		
+		$GLOBALS['xoTheme']->addScript(XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js");
+		$GLOBALS['xoTheme']->addScript(XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.ui.js");
+		$GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . "/modules/" . _MD_FONTIER_MODULE_DIRNAME . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/style.css');
+		$indexesHandler= xoops_getModuleHandler('indexes',_MD_FONTIER_MODULE_DIRNAME);
+		$GLOBALS['xoopsTpl']->assign('bases', $indexesHandler->getBases($base));
+		$indentitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
+		$GLOBALS['xoopsTpl']->assign('randoms', $indentitiesHandler->getRandoms($base, $limit));
+		include $GLOBALS['xoops']->path('/footer.php');
+		exit(0);
+	} else {
+		$xoopsOption['template_main'] = 'fontier_index_base.html';
+		include $GLOBALS['xoops']->path('/header.php');
+		$GLOBALS['xoTheme']->addScript(XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js");
+		$GLOBALS['xoTheme']->addScript(XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.ui.js");
+		$GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . "/modules/" . _MD_FONTIER_MODULE_DIRNAME . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/style.css');
+		$indexesHandler= xoops_getModuleHandler('indexes',_MD_FONTIER_MODULE_DIRNAME);
+		$GLOBALS['xoopsTpl']->assign('bases', $indexesHandler->getBases($base));
+		$indentitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
+		$GLOBALS['xoopsTpl']->assign('randoms', $indentitiesHandler->getRandoms($base, 3));
+		$GLOBALS['xoopsTpl']->assign('fonts', $indentitiesHandler->getFonts($base, $start, $limit));
+		$GLOBALS['xoopsTpl']->assign('breadcrumb', $indexesHandler->getBreadcrumb($base));
+		include $GLOBALS['xoops']->path('/footer.php');
+		exit(0);
+	}
 		
 ?>
