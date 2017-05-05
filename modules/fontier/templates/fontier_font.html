@@ -2,6 +2,9 @@
 	<img  id="fontierfontnaming" src="<{$naming}>" title="<{$name}>" alt="<{$name}>" width='89%' />
 	<br />
 	<span id="fontierviewsdownloads"><{$smarty.const._MN_FONTIER_FONT_VIEWS}>:&nbsp;<{$views}>&nbsp;/&nbsp;<{$smarty.const._MN_FONTIER_FONT_DOWNLOADS}>:&nbsp;<{$downloads}></span>
+	<{if $tags}>
+		<br /><{include file="db:tag_bar.html"}>
+	<{/if}>	
 </div>
 <h1><{$smarty.const._MN_FONTIER_FONT_PREVIEW_H1}> <{$name}></h1>
 <div style="margin: 8px; padding: 3px; text-align: center;">
@@ -51,3 +54,19 @@
 	</table>
 </div>
 <{/if}>
+
+<div style="text-align: center; padding: 3px; margin:3px;">
+	<{$commentsnav}>
+	<{$lang_notice}>
+</div>
+
+<div style="margin:3px; padding: 3px;">
+<{if $comment_mode == "flat"}>
+	<{include file="db:system_comments_flat.html"}>
+<{elseif $comment_mode == "thread"}>
+	<{include file="db:system_comments_thread.html"}>
+<{elseif $comment_mode == "nest"}>
+	<{include file="db:system_comments_nest.html"}>
+<{/if}>
+</div>
+<{include file='db:system_notification_select.html'}>

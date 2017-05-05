@@ -45,6 +45,7 @@ require_once (__DIR__ . DIRECTORY_SEPARATOR . 'objects.php');
  *   `css` tinytext,
  *   `glyphs` tinytext,
  *   `name` varchar(255) DEFAULT '',
+ *   `tags` varchar(255) DEFAULT '',
  *   `barcode` varchar(32) DEFAULT '',
  *   `referee` varchar(128) DEFAULT '',
  *   `polled` int(13) DEFAULT '0',
@@ -78,6 +79,7 @@ class fontierIdentities extends fontierXoopsObject
         self::initVar('json', XOBJ_DTYPE_ARRAY, '', false);
         self::initVar('diz', XOBJ_DTYPE_OBJECT, '', false);
         self::initVar('name', XOBJ_DTYPE_TXTBOX, '', false, 255);
+        self::initVar('tags', XOBJ_DTYPE_TXTBOX, '', false, 255);
         self::initVar('barcode', XOBJ_DTYPE_TXTBOX, '', false, 32);
         self::initVar('referee', XOBJ_DTYPE_TXTBOX, '', false, 128);
         self::initVar('polled', XOBJ_DTYPE_INT, 0, false);
@@ -95,6 +97,32 @@ class fontierIdentities extends fontierXoopsObject
         
     }
 
+    function getDescriptionTile()
+    {
+    	global $fontierConfigsList;
+    	$GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . "/modules/" . _MD_FONTIER_MODULE_DIRNAME . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/style.css');
+    	xoops_loadLanguage('main', _MD_FONTIER_MODULE_DIRNAME);
+    	$html = "<div style=\"margin: 8px; padding: 3px; text-align: center;\">\n
+	<img  id=\"fontierfontnaming\" src=\"".$this->getNamingURL($fontierConfigsList['image_format']) ."\" title=\"" . $this->getVar('name') ."\" alt=\"" . $this->getVar('name') ."\" width='89%' />\n
+	<br />\n
+	<span id=\"fontierviewsdownloads\">"._MN_FONTIER_FONT_VIEWS.":&nbsp;".$this->getVar('views')."&nbsp;/&nbsp;"._MN_FONTIER_FONT_DOWNLOADS.":&nbsp;".$this->getVar('downloads')."</span>\n
+</div>\n
+<h1>"._MN_FONTIER_FONT_PREVIEW_H1." ".$this->getVar('name')."</h1>\n
+<div style=\"margin: 8px; padding: 3px; text-align: center;\">\n
+	<img  id=\"fontierfontnaming\" src=\"".$this->getPreviewURL($fontierConfigsList['image_format'])."\" title=\"".$this->getVar('name')."\" alt=\"".$this->getVar('name')."\" width='97%' />\n
+	<br />\n
+</div>\n
+<h1>"._MN_FONTIER_FONT_DOWNLOADING_H1." ".$this->getVar('name')."</h1>\n
+<div style=\"margin: 8px; padding: 3px; text-align: center;\">\n
+	<ol style=\"list-style: none !important; list-style-type: none !important;\">\n";
+    	foreach (getDownloadURLsArray(explode(",",$fontierConfigsList['download_formats']), ucwords(strtolower($font->getVar('name')))) as $filename => $url) {
+    		$html .= "		<li style=\"float: left; width: 24%; padding: 4px;\" id=\"fontierfontdownload\" ><a href=\"".$url."\" target=\"_blank\">".$filename."</a>\n";
+    	}
+    	$html .= "	</ol>\n";
+    	$html .= "</div>\n";
+    	return $html;
+    }
+    
     function addViewCount($num = 1)
     {
     	$this->setVar('views', $this->getVar('views') + $num);

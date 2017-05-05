@@ -95,6 +95,8 @@ define('_MD_FONTIER_HTML','Extension for HTML output with SEO URL');
 define('_MD_FONTIER_HTML_DESC','');
 define('_MD_FONTIER_IMAGE','File extension and type of image to use with API');
 define('_MD_FONTIER_IMAGE_DESC','');
+define('_MD_FONTIER_TAGS','Support Tag 2.3+ Module');
+define('_MD_FONTIER_TAGS_DESC','');
 define('_MD_FONTIER_SCHEDULE','Maintenance scheduling method');
 define('_MD_FONTIER_SCHEDULE_DESC','This is the method the maintenance tasks are scheduled as a method of execution');
 define('_MD_FONTIER_POLL_IDENTITIES','Poll Identities JSON list');

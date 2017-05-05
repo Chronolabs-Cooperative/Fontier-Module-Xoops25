@@ -66,6 +66,13 @@
 	$GLOBALS['xoopsTpl']->assign('downloading', $font->getDownloadURLsArray(explode(",",$fontierConfigsList['download_formats']), ucwords(strtolower($font->getVar('name')))));
 	$GLOBALS['xoopsTpl']->assign('glyphs', $font->getGlyphsURLArray($fontierConfigsList['image_format']));
 	$GLOBALS['xoopsTpl']->assign('randoms', $identitiesHandler->getRandoms($font->getVar('thirds'), 6));
+	if (file_exist(XOOPS_ROOT_PATH."/modules/tag/include/tagbar.php") && $fontierConfigsList['tags'])
+	{
+		include_once XOOPS_ROOT_PATH."/modules/tag/include/tagbar.php";
+		$xoopsTpl->assign('tagbar', tagBar($font->getVar('id'), $catid = 0));
+	}
+	// Include the comments
+	include_once XOOPS_ROOT_PATH . "/include/comment_view.php";
 	include $GLOBALS['xoops']->path('/footer.php');
 	$font->addViewCount(1);
 	$identitiesHandler->insert($font);

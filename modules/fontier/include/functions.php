@@ -149,4 +149,38 @@ if (!function_exists("getURIData")) {
 	}
 }
 
+
+if (!function_exists("getFontNameTags")) {
+	/**
+	 * Loads a field enumerator values
+	 *
+	 * @param string $filename
+	 * @param string $variable
+	 * @return array():
+	 */
+	function getFontNameTags($name = '', $sep = ',')
+	{
+		if (strlen(trim($name))==0)
+			return '';
+		
+		$name = str_replace(array('.',',','<','>',"?","/","'","'",';',':','{','}','[',']','=','+','_','-',')','(','*','&','^',"%",'$',"@",'!','~','`',' '), '', $name);
+		$tags = array();
+		$tag = '';
+		for($s=0;$s<strlen($name);$s++)
+		{
+			if (strlen($tag)>0 && (substr($name, $s, 1) == strtoupper(substr($name, $s, 1)) && (substr($name, $s, 1) == strtolower(substr($name, $s-1, 1)))) || (is_numeric(substr($name, $s, 1)) && !is_numeric(substr($name, $s-1, 1))))
+			{
+				$tags[] = $tag;
+				$tag = '';
+			}
+			$tag .=substr($name, $s, 1);
+		}
+		if (strlen($tag)>0)
+			$tags[] = $tag;
+		array_unique($tags);
+		sort($tags);
+		return implode($sep, $tags);
+	}
+}
+
 ?>

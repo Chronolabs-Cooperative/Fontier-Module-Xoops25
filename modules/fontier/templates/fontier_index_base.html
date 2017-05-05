@@ -25,6 +25,11 @@
 </div>
 <{/if}>
 <{if $fonts}>
+<div id='fontierindexpagenav' >
+	<div style="float: right; width: auto; margin: 7px; padding: 4px;">
+		<{$pagenav}>
+	</div>
+</div>
 <h1><{$smarty.const._MN_FONTIER_FONT_FONTS_H1}></h1>
 <div id="outer" class="outer">
 	<table width="100%" id='fontierindexfonts' class="fontier fonts">
@@ -38,6 +43,11 @@
 		<{/foreach}>
 		</tbody>
 	</table>
+</div>
+<div id='fontierindexpagenav'>
+	<div style="float: left; width: auto; margin: 7px; padding: 4px;">
+		<{$pagenav}>
+	</div>
 </div>
 <{/if}>
 <{if $randoms}>
@@ -56,3 +66,4 @@
 	</table>
 </div>
 <{/if}>
+<{include file='db:system_notification_select.html'}>

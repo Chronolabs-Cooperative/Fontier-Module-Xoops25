@@ -57,10 +57,16 @@
 				$font->setVar('glyphs', $glyphs);
 				$font->setVar('glyphed', time());
 				$font->setVar('polled', time());
+				$font->setVar('tags', $tags = getFontNameTags($data['FontName']));
 				if (strlen($font->getVar('diz')) && strlen($font->getVar('css')) && count(strlen($font->getVar('json'))) && strlen($font->getVar('name')))
 				{
-					if ($identitiesHandler->insert($font, true))
+					if ($id = $identitiesHandler->insert($font, true))
 					{
+						if ($fontierConfigsList['tags'] && file_exists(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'tag' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'tag.php'))
+						{
+							$tag_handler = xoops_getmodulehandler('tag', 'tag');
+							$tag_handler->updateByItem($tags, $id, _MD_FONTIER_MODULE_DIRNAME, 0);
+						}
 						$criteria = new Criteria('base', $font->getVar('base'));
 						if ($indexesHandler->getCount($criteria) == 0)
 						{
