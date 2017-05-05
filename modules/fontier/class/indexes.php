@@ -160,6 +160,64 @@ class fontierIndexesHandler extends fontierXoopsObjectHandler
     
     /**
      * 
+     * @param unknown $base
+     * @return boolean|NULL[][]
+     */
+    function getBreadcrumb($base = null)
+    {
+    	if (is_null($base))
+    		return false;
+    	$criteria = new Criteria('base', $base);
+    	$top = $this->getVar($criteria);
+    	if (!isset($top[0]))
+    		return false;
+    	$criteria = new Criteria('id', $top[0]->getVar('parent_id'));
+    	$second = $this->getVar($criteria);
+    	if (!isset($second[0]))
+    		return array($top[0]->getVar('base') => array('base' => $top[0]->getVar('base'), 'url' => $top[0]->getIndexBrowseURL()));
+    	$criteria = new Criteria('id', $second[0]->getVar('parent_id'));
+    	$third = $this->getVar($criteria);
+    	if (!isset($third[0]))
+    		return array(	$second[0]->getVar('base') => array('base' => $second[0]->getVar('base'), 'url' => $second[0]->getIndexBrowseURL()),
+    						$top[0]->getVar('base') => array('base' => $top[0]->getVar('base'), 'url' => $top[0]->getIndexBrowseURL())			);
+    	return array(	$third[0]->getVar('base') => array('base' => $third[0]->getVar('base'), 'url' => $third[0]->getIndexBrowseURL()),
+    					$second[0]->getVar('base') => array('base' => $second[0]->getVar('base'), 'url' => $second[0]->getIndexBrowseURL()),
+    					$top[0]->getVar('base') => array('base' => $top[0]->getVar('base'), 'url' => $top[0]->getIndexBrowseURL())
+    	);
+    }
+    /**
+     * 
+     * @param unknown $base
+     * @return boolean|unknown
+     */
+    function getBases($base = null)
+    {
+    	if (is_null($base))
+    		$parent_id = 0;
+    	else {
+    		$criteria = new Criteria('base', $base);
+    		$obj = $this->getVar($criteria);
+    		if (!isset($obj[0]))
+    			return false;
+    		$parent_id = $obj[0]->getVar('parent_id');
+    	}
+    	$criteria = new Criteria('parent_id', $parent_id);
+    	$criteria->setOrder('base');
+    	$criteria->setSort('ASC');
+    	if ($objs = $this->getObjects($criteria))
+    	{
+    		$result = array();
+    		foreach($objs as $key => $obj)
+    		{
+    			$result[$key]['url'] = $obj->getIndexBrowseURL();
+    			$result[$key]['base'] = $obj->getVar('base');
+    		}
+    		return $result;
+    	}
+    	return false;
+    }
+    /**
+     * 
      * @param string $base
      * @param number $excludeid
      * @param number $start

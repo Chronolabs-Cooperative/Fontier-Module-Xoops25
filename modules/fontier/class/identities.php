@@ -295,6 +295,93 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
     
     /**
      * 
+     * @param unknown $base
+     * @param number $limit
+     * @return boolean|string|boolean
+     */
+    function getRandoms($base = null, $limit = 5)
+    {
+    	if (is_null($base))
+    	{
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 ORDER BY RAND() LIMIT $limit";
+    	} elseif (strlen($base) == 1)
+    	{
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `base` LIKE '$base' ORDER BY RAND() LIMIT $limit";
+    	} elseif (strlen($base) == 2)
+    	{
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `second` LIKE '$base' ORDER BY RAND() LIMIT $limit";
+    	} elseif (strlen($base) == 3)
+    	{
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `thirds` LIKE '$base' ORDER BY RAND() LIMIT $limit";
+    	}
+    	$result = $GLOBALS['xoopsDB']->queryF($sql);
+    	$return = $objs = array();
+    	while($row = $GLOBALS['xoopsDB']->fetchArray($result))
+    	{
+    		$objs[$row['id']] = new fontierIdentities();
+    		$objs[$row['id']]->assignVars($row);
+    	}
+    	if (count($objs)>0)
+    	{
+	    	foreach($objs as $key => $obj)
+	    	{
+	    		$return[$key]['name'] = $obj->getVar('name');
+	    		$return[$key]['views'] = $obj->getVar('views');
+	    		$return[$key]['downloads'] = $obj->getVar('downloads');
+	    		$return[$key]['naming'] = $obj->getNamingURL();
+	    		$return[$key]['url'] = $obj->getFontURL('id');
+	    	}
+	    	return $return;
+    	}
+    	return false;
+    }
+    
+    /**
+     * 
+     * @param unknown $base
+     * @param number $start
+     * @param number $limit
+     * @return boolean|string|boolean
+     */
+    function getFonts($base = null, $start = 0, $limit = 5)
+    {
+    	if (is_null($base))
+    	{
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 ORDER BY `polling` DESC LIMIT $start, $limit";
+    	} elseif (strlen($base) == 1)
+    	{
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `base` LIKE '$base' ORDER BY `polling` DESC LIMIT $start, $limit";
+    	} elseif (strlen($base) == 2)
+    	{
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `second` LIKE '$base' ORDER BY `polling` DESC LIMIT $start, $limit";
+    	} elseif (strlen($base) == 3)
+    	{
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `thirds` LIKE '$base' ORDER BY `polling` DESC LIMIT $start, $limit";
+    	}
+    	$result = $GLOBALS['xoopsDB']->queryF($sql);
+    	$return = $objs = array();
+    	while($row = $GLOBALS['xoopsDB']->fetchArray($result))
+    	{
+    		$objs[$row['id']] = new fontierIdentities();
+    		$objs[$row['id']]->assignVars($row);
+    	}
+    	if (count($objs)>0)
+    	{
+    		foreach($objs as $key => $obj)
+    		{
+    			$return[$key]['name'] = $obj->getVar('name');
+    			$return[$key]['views'] = $obj->getVar('views');
+    			$return[$key]['downloads'] = $obj->getVar('downloads');
+    			$return[$key]['naming'] = $obj->getNamingURL();
+    			$return[$key]['url'] = $obj->getFontURL('id');
+    		}
+    		return $return;
+    	}
+    	return false;
+    }
+    
+    /**
+     * 
      * @param string $base
      * @return array|NULL[][]|unknown[][]
      */

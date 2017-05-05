@@ -1,0 +1,53 @@
+<div style="margin: 8px; padding: 3px; text-align: center;">
+	<img  id="fontierfontnaming" src="<{$naming}>" title="<{$name}>" alt="<{$name}>" width='89%' />
+	<br />
+	<span id="fontierviewsdownloads"><{$smarty.const._MN_FONTIER_FONT_VIEWS}>:&nbsp;<{$views}>&nbsp;/&nbsp;<{$smarty.const._MN_FONTIER_FONT_DOWNLOADS}>:&nbsp;<{$downloads}></span>
+</div>
+<h1><{$smarty.const._MN_FONTIER_FONT_PREVIEW_H1}> <{$name}></h1>
+<div style="margin: 8px; padding: 3px; text-align: center;">
+	<img  id="fontierfontnaming" src="<{$preview}>" title="<{$name}>" alt="<{$name}>" width='97%' />
+	<br />
+</div>
+<h1><{$smarty.const._MN_FONTIER_FONT_DOWNLOADING_H1}> <{$name}></h1>
+<div style="margin: 8px; padding: 3px; text-align: center;">
+	<ol style="list-style: none !important; list-style-type: none !important;">
+	<{foreach from=$downloading item=url key=filename}>
+		<li style="float: left; width: 24%; padding: 4px;" id="fontierfontdownload" ><a href="<{$url}>" target="_blank"><{$filename}></a>
+	<{/foreach}>
+	</ol>
+</div>
+<h2><{$smarty.const._MN_FONTIER_FONT_GLYPHS_H2}> <{$name}></h2>
+<div style="margin: 8px; padding: 3px; text-align: center;">
+	<{foreach from=$downloading item=url key=utfcode}>
+		<img style="float: left; margin: 4px;" src="<{$url}>" alt="HTML Code: #&<{$utfcode}>;" title="HTML Code: #&<{$utfcode}>;" id="fontierfontglyph" />
+	<{/foreach}>
+</div>
+<h2><{$smarty.const._MN_FONTIER_FONT_CSS_H2}> <{$name}></h2>
+<p><{$smarty.const._MN_FONTIER_FONT_CSS_P1}></p>
+<pre style="margin-left: 11px; padding: 7px; text-align: left; overflow: scroll; width='100%'; height='45px'" id='fontiercsscode' class="fontier css code">
+@import url('<{$css_url}>');
+</pre>
+<p><{$smarty.const._MN_FONTIER_FONT_CSS_P2}></p>
+<pre style="margin-left: 11px; padding: 7px; text-align: left; overflow: scroll; width='100%'; height='345px'" id='fontiercsscode' class="fontier css code">
+<{$css}>
+</pre>
+<h3><{$smarty.const._MN_FONTIER_FONT_DIZ_H3}> <{$name}></h3>
+<pre style="margin-left: 11px; padding: 7px; text-align: left; overflow: scroll; width='100%'; height='345px'" id='fontierdizpre' class="fontier css code">
+<{$diz}>
+</pre>
+<{if $randoms}>
+<h1><{$smarty.const._MN_FONTIER_FONT_RANDOMS_H1}></h1>
+<div id="outer" class="outer">
+	<table width="100%" id='fontierindexrandom' class="fontier random">
+		<tbody>
+		<{foreach from=$randoms item=font}>
+			<tr style="vertical-align: middle;" class="<{cycle values='even,odd'}>">
+				<td style="text-align: center;" class="<{cycle values='even,odd'}>">
+					<a href="<{$font.url}>" target="_blank"><img src="<{$font.naming}>" width="95%" title="<{$smarty.const._MN_FONTIER_FONT_VIEWS}>: <{$font.views}>, <{$smarty.const._MN_FONTIER_FONT_DOWNLOADS}>: <{$font.downloads}>" alt="<{$smarty.const._MB_FONTIER_FONT_VIEWS}>: <{$font.views}>, <{$smarty.const._MB_FONTIER_FONT_DOWNLOADS}>: <{$font.downloads}>"/></a>
+				</td>
+			</tr>
+		<{/foreach}>
+		</tbody>
+	</table>
+</div>
+<{/if}>

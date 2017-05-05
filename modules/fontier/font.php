@@ -56,25 +56,16 @@
 	
 	$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', 'Font: ' . $font->getVar('name'));
 	$GLOBALS['xoopsTpl']->assign('name', $font->getVar('name'));
+	$GLOBALS['xoopsTpl']->assign('views', $font->getVar('views'));
+	$GLOBALS['xoopsTpl']->assign('downloads', $font->getVar('downloads'));
 	$GLOBALS['xoopsTpl']->assign('diz', $font->getVar('diz'));
 	$GLOBALS['xoopsTpl']->assign('css', $font->getVar('css'));
 	$GLOBALS['xoopsTpl']->assign('css_url', $font->getCSSURL());
 	$GLOBALS['xoopsTpl']->assign('preview', $font->getPreviewURL($fontierConfigsList['image_format']));
 	$GLOBALS['xoopsTpl']->assign('naming', $font->getNamingURL($fontierConfigsList['image_format']));
-	$GLOBALS['xoopsTpl']->assign('downloads', $font->getDownloadURLsArray(explode(",",$fontierConfigsList['download_formats']), ucwords(strtolower($font->getVar('name')))));
+	$GLOBALS['xoopsTpl']->assign('downloading', $font->getDownloadURLsArray(explode(",",$fontierConfigsList['download_formats']), ucwords(strtolower($font->getVar('name')))));
 	$GLOBALS['xoopsTpl']->assign('glyphs', $font->getGlyphsURLArray($fontierConfigsList['image_format']));
-	
-	// get Breadcrumbs as well as navigational indexes
-	$indexesHandler= xoops_getModuleHandler('indexes',_MD_FONTIER_MODULE_DIRNAME);
-	$GLOBALS['xoopsTpl']->assign('others', $indexesHandler->getFontsURLsFromBase($font->getVar('thirds'), $_GET['id']));
-	$index = $indexesHandler->getByBase($font->getVar('thirds'));
-	$GLOBALS['xoopsTpl']->assign('total', $index->getVar('fonts'));
-	$indexes = $indexesHandler->getIndexesArrayByBase($font->getVar('seconds'));
-	$GLOBALS['xoopsTpl']->assign('indexes', $indexes);
-	$GLOBALS['xoopsTpl']->assign('base', $font->getVar('base'));
-	$GLOBALS['xoopsTpl']->assign('base_url', $indexesHandler->getIndexBrowseURL($font->getVar('base')));
-	$GLOBALS['xoopsTpl']->assign('second', $font->getVar('seconds'));
-	$GLOBALS['xoopsTpl']->assign('second_url', $indexesHandler->getIndexBrowseURL($font->getVar('seconds')));
+	$GLOBALS['xoopsTpl']->assign('randoms', $identitiesHandler->getRandoms($font->getVar('thirds'), 6));
 	include $GLOBALS['xoops']->path('/footer.php');
 	$font->addViewCount(1);
 	$identitiesHandler->insert($font);

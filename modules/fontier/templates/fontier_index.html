@@ -1,0 +1,31 @@
+<{if $bases}>
+<h1><{$smarty.const._MN_FONTIER_FONT_BASES_H1}></h1>
+<div  style="text-align: center; vertical-align: middle; margin: 11px; padding: 9px;" id="fontierbases" class="floating floatleft bases">
+	<foreach from=$bases item=base}>
+	<div style="float:left; width=14%; margin: 7px; padding: 4px;">
+		<div style="text-align: center; font-size: 2.45em;" class="fontierbase">
+			<a href="<{$base.url}>"><{$base.base}></a>
+		</div>
+		<div style="text-align: center; font-size: 0.45em;" class="fontierviewsdownloads">
+			<a href="<{$base.url}>"><{$base.views}></a> / <a href="<{$base.url}>"><{$base.downloads}></a>
+		</div>
+	</div>
+	<{/foreach}>
+</div>
+<{/if}>
+<{if $randoms}>
+<h1><{$smarty.const._MN_FONTIER_FONT_RANDOMS_H1}></h1>
+<div id="outer" class="outer">
+	<table width="100%" id='fontierindexrandom' class="fontier random">
+		<tbody>
+		<{foreach from=$randoms item=font}>
+			<tr style="vertical-align: middle;" class="<{cycle values='even,odd'}>">
+				<td style="text-align: center;" class="<{cycle values='even,odd'}>">
+					<a href="<{$font.url}>" target="_blank"><img src="<{$font.naming}>" width="95%" title="<{$smarty.const._MN_FONTIER_FONT_VIEWS}>: <{$font.views}>, <{$smarty.const._MN_FONTIER_FONT_DOWNLOADS}>: <{$font.downloads}>" alt="<{$smarty.const._MB_FONTIER_FONT_VIEWS}>: <{$font.views}>, <{$smarty.const._MB_FONTIER_FONT_DOWNLOADS}>: <{$font.downloads}>"/></a>
+				</td>
+			</tr>
+		<{/foreach}>
+		</tbody>
+	</table>
+</div>
+<{/if}>
