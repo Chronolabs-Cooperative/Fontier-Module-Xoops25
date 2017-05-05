@@ -1,6 +1,6 @@
 # Fontier+ 1.01
 ## Client for Chronolabs Cooperative ~ Fonting Repository Services API
-### Author: Simon Antony Roberts (Sydney) <wishcraft@user.sourceforge.net>
+### Author: Simon Antony Roberts (Sydney) <wishcraft@users.sourceforge.net>
 
 This module is a client for the XOOPS Platform which is for the Fonting Repository Services API (ie. http://api.fonts4web.org.uk). This client will download from the repository a list of the supported fonts and set a browsable display for them on the website you are operating on with XOOPS 2.5.
 
