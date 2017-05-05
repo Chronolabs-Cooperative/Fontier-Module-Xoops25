@@ -33,8 +33,8 @@ define('_MD_FONTIER_ADMIN_STATS_FILESINREPO','Total files in Repository: %s');
 define('_MD_FONTIER_ADMIN_STATS_MBSINREPO','Total Megabytes in Repository: %s');
 
 // Module Admin Menu
-define('_MD_FONTIER_ADMINMENU_HOME','Fonts');
-define('_MD_FONTIER_ADMINMENU_FONTS','Indexes');
+define('_MD_FONTIER_ADMINMENU_HOME','Fontier+');
+define('_MD_FONTIER_ADMINMENU_FONTS','Polled Fonts');
 define('_MD_FONTIER_ADMINMENU_ABOUT','Fontier+ About');
 
 // Module definition headers for xoops_version.php
@@ -161,6 +161,10 @@ define('_MD_FONTIER_LAST_FONTS_VIEWED','Last Fonts Viewed');
 define('_MD_FONTIER_LAST_FONTS_VIEWED_DESC','This is the last fonts viewed');
 define('_MD_FONTIER_LAST_FONTS_DOWNLOADED','Last Fonts Downloaded');
 define('_MD_FONTIER_LAST_FONTS_DOWNLOADED_DESC','This is the last fonts downloaded');
+define('_MD_FONTIER_TAG_BLOCK_CLOUD','Fontier+ Tag Cloud');
+define('_MD_FONTIER_TAG_BLOCK_CLOUD_DESC','This is a block that displays the tag cloud for fontier+');
+define('_MD_FONTIER_TAG_BLOCK_TOP','Fontier+ Top Tags');
+define('_MD_FONTIER_TAG_BLOCK_TOP_DESC','This is a block that displays the top tags for fontier+');
 
 // Notification Constant Defines
 define('_MD_FONTIER_GLOBAL_NOTIFY','Fontier+ Notifications');

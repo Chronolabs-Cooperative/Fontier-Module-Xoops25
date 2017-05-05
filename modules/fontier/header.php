@@ -27,6 +27,8 @@
 		
 	require_once dirname(dirname(__DIR__)).'/mainfile.php';
 	
+	xoops_loadLanguage('errors', _MD_FONTIER_MODULE_DIRNAME);
+	
 	error_reporting(E_ERROR);
 	ini_set('display_errors', true);
 	
@@ -66,3 +68,4 @@
 		}
 	}
 	
+	require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'functions.php');	

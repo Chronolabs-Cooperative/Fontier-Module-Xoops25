@@ -6,11 +6,13 @@
 		<br /><{include file="db:tag_bar.html"}>
 	<{/if}>	
 </div>
+<div style="clear:both;">&nbsp;</div>
 <h1><{$smarty.const._MN_FONTIER_FONT_PREVIEW_H1}> <{$name}></h1>
 <div style="margin: 8px; padding: 3px; text-align: center;">
 	<img  id="fontierfontnaming" src="<{$preview}>" title="<{$name}>" alt="<{$name}>" width='97%' />
 	<br />
 </div>
+<div style="clear:both;">&nbsp;</div>
 <h1><{$smarty.const._MN_FONTIER_FONT_DOWNLOADING_H1}> <{$name}></h1>
 <div style="margin: 8px; padding: 3px; text-align: center;">
 	<ol style="list-style: none !important; list-style-type: none !important;">
@@ -19,12 +21,14 @@
 	<{/foreach}>
 	</ol>
 </div>
+<div style="clear:both;">&nbsp;</div>
 <h2><{$smarty.const._MN_FONTIER_FONT_GLYPHS_H2}> <{$name}></h2>
 <div style="margin: 8px; padding: 3px; text-align: center;">
 	<{foreach from=$downloading item=url key=utfcode}>
 		<img style="float: left; margin: 4px;" src="<{$url}>" alt="HTML Code: #&<{$utfcode}>;" title="HTML Code: #&<{$utfcode}>;" id="fontierfontglyph" />
 	<{/foreach}>
 </div>
+<div style="clear:both;">&nbsp;</div>
 <h2><{$smarty.const._MN_FONTIER_FONT_CSS_H2}> <{$name}></h2>
 <p><{$smarty.const._MN_FONTIER_FONT_CSS_P1}></p>
 <pre style="margin-left: 11px; padding: 7px; text-align: left; overflow: scroll; width='100%'; height='45px'" id='fontiercsscode' class="fontier css code">
@@ -38,6 +42,7 @@
 <pre style="margin-left: 11px; padding: 7px; text-align: left; overflow: scroll; width='100%'; height='345px'" id='fontierdizpre' class="fontier css code">
 <{$diz}>
 </pre>
+<div style="clear:both;">&nbsp;</div>
 <{if $randoms}>
 <h1><{$smarty.const._MN_FONTIER_FONT_RANDOMS_H1}></h1>
 <div id="outer" class="outer">
@@ -53,6 +58,7 @@
 		</tbody>
 	</table>
 </div>
+<div style="clear:both;">&nbsp;</div>
 <{/if}>
 
 <div style="text-align: center; padding: 3px; margin:3px;">

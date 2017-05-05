@@ -74,6 +74,9 @@
 		$indentitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
 		$GLOBALS['xoopsTpl']->assign('randoms', $indentitiesHandler->getRandoms($base, 3));
 		$GLOBALS['xoopsTpl']->assign('fonts', $indentitiesHandler->getFonts($base, $start, $limit));
+		xoops_load('XoopsPageNav');
+		$nav = new XoopsPageNav($indentitiesHandler->getFontsCount($base), $limit, $start, 'start', '&base='.$base.'&limit='.$limit);
+		$GLOBALS['xoopsTpl']->assign('pagenav', $nav->renderNav(5));
 		$GLOBALS['xoopsTpl']->assign('breadcrumb', $indexesHandler->getBreadcrumb($base));
 		include $GLOBALS['xoops']->path('/footer.php');
 		exit(0);

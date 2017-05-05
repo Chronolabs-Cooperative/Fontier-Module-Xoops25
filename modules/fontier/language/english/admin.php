@@ -21,3 +21,16 @@
  * @link			http://internetfounder.wordpress.com
  */
 
+define('_MA_FONTIER_ADMIN_STATISTICS','Fontier+ Statistics');
+define('_MA_FONTIER_ADMIN_STATS_TOTALIDENTITIES','Total Font Identities: %s');
+define('_MA_FONTIER_ADMIN_STATS_TOTALPOLLED','Total Fonts Polled: %s');
+define('_MA_FONTIER_ADMIN_STATS_TOTALTOPOLL','Fonts Left to Poll: %s');
+define('_MA_FONTIER_ADMIN_STATS_TOTALVIEWS','Total Fonts Views: %s');
+define('_MA_FONTIER_ADMIN_STATS_TOTALDOWNLOADS','Total Font Downloads: %s');
+define('_MA_FONTIER_ADMIN_STATS_FILESINCACHE','Files in Cache: %s');
+define('_MA_FONTIER_ADMIN_STATS_MBSINCACHE','Files sizes in Cache: %s');
+define('_MA_FONTIER_ADMIN_IDENTITY_NAME','Fonts Names');
+define('_MA_FONTIER_ADMIN_IDENTITY_VIEWS','Clients Viewed');
+define('_MA_FONTIER_ADMIN_IDENTITY_DOWNLOADS','Clients Downloaded');
+define('_MA_FONTIER_ADMIN_IDENTITY_NAMING','Naming Image Card');
+define('_MA_FONTIER_ADMIN_IDENTITY_H1','History of Font Polled from Latest');

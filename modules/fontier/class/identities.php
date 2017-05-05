@@ -97,6 +97,24 @@ class fontierIdentities extends fontierXoopsObject
         
     }
 
+    /**
+     * 
+     * @return boolean[]|string[]|mixed[]|NULL[]|array[]
+     */
+    function getAdminPanelArray()
+    {
+    	global $fontierConfigsList;
+    	return array(	'name' => $this->getVar('name'),
+    					'views' => $this->getVar('views'),
+    					'downloads' => $this->getVar('downloads'),
+    					'url' => $this->getFontURL('id'),
+    					'naming' => $this->getNamingURL($fontierConfigsList['image_format'])		);
+    }
+    
+    /**
+     * 
+     * @return string
+     */
     function getDescriptionTile()
     {
     	global $fontierConfigsList;
@@ -321,6 +339,88 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
         parent::__construct($db, $this->tbl, $this->child, $this->identity, $this->envalued);
     }
     
+    
+    /**
+     *
+     * @return number
+     */
+    function getTotalMbsInCache()
+    {
+    	xoops_load("XoopsCache");
+    	$caches = XoopsCache::read(_MD_FONTIER_MODULE_DIRNAME . "-caches-session");
+    	$size = 0;
+    	foreach($caches as $cache => $time)
+    	{
+    		$size = $size + strlen(implode("", $data = XoopsCache::read($cache)));
+    		$size = $size + count($data) * 3;
+    		$size = $size + 2;
+    	}
+    	return number_format($size/1024/1024,2). 'Mb\'s';
+    }
+    
+    /**
+     *
+     * @return number
+     */
+    function getTotalFilesInCache()
+    {
+    	xoops_load("XoopsCache");
+    	$caches = XoopsCache::read(_MD_FONTIER_MODULE_DIRNAME . "-caches-session");
+    	return count($caches);
+    }
+    
+    /**
+     *
+     * @return number
+     */
+    function getTotalDownloads()
+    {
+    	$sql = "SELECT sum(`downloads`) as `downloads` FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0";
+    	list($downloads) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
+    	return $downloads;
+    }
+    
+    /**
+     *
+     * @return number
+     */
+    function getTotalViews()
+    {
+    	$sql = "SELECT sum(`views`) as `views` FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0";
+    	list($views) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
+    	return $views;
+    }
+    
+    /**
+     *
+     * @return number
+     */
+    function getTotalToPoll()
+    {
+    	$criteria = new Criteria("polled","0");
+    	return $this->getCount($criteria);
+    }
+    
+    /**
+     *
+     * @return number
+     */
+    function getTotalPolled()
+    {
+    	$criteria = new Criteria("polled","0", ">");
+    	return $this->getCount($criteria);
+    }
+    
+    /**
+     * 
+     * @return number
+     */
+    function getTotalIdentities()
+    {
+    	$criteria = new Criteria("1","1");
+    	return $this->getCount($criteria);
+    }
+    
     /**
      * 
      * @param unknown $base
@@ -406,6 +506,31 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
     		return $return;
     	}
     	return false;
+    }
+    
+    
+    /**
+     *
+     * @param unknown $base
+     * @return integer
+     */
+    function getFontsCount($base = null)
+    {
+    	if (is_null($base))
+    	{
+    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 ORDER BY `polling` DESC";
+    	} elseif (strlen($base) == 1)
+    	{
+    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `base` LIKE '$base' ORDER BY `polling` DESC";
+    	} elseif (strlen($base) == 2)
+    	{
+    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `second` LIKE '$base' ORDER BY `polling` DESC";
+    	} elseif (strlen($base) == 3)
+    	{
+    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `thirds` LIKE '$base' ORDER BY `polling` DESC";
+    	}
+    	list($count) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
+    	return $count;
     }
     
     /**
