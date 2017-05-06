@@ -1,4 +1,4 @@
-# Fontier+ 1.01
+# Fontier+ 1.02
 ## Client for Chronolabs Cooperative ~ Fonting Repository Services API
 ### Author: Simon Antony Roberts (Sydney) <wishcraft@users.sourceforge.net>
 
@@ -13,15 +13,16 @@ Download the resource for this module and install, then point and configure the 
 ## Search Engine Friendly URLS (rewrite)
 
 If you are using .htaccess with apache there is a mod-rewrite function in the preferences the following .htaccess goes in the root of your XOOPS_ROOT_PATH spot as .htaccess the following is to be copied into there:-
- 
+
     RewriteEngine On
     RewriteRule ^fontier/index.html                  		./modules/fontier/index.php                           	[L,NC,QSA]
     RewriteRule ^fontier/([0-9]+)/([0-9]+)/(.*?)/index.html 	./modules/fontier/index.php?start=$1&limit=$2&base=$3 	[L,NC,QSA]
     RewriteRule ^fontier/uploads.html$                      	./modules/fontier/uploads.php                          	[L,NC,QSA]
     RewriteRule ^fontier/releases.html$                     	./modules/fontier/releases.php                         	[L,NC,QSA]
-    RewriteRule ^fontier/naming/([0-9]+).(png|jpg|gif)          ./modules/fontier/naming/$1.$2           		[L,NC,QSA]
-    RewriteRule ^fontier/preview/([0-9]+).(png|jpg|gif)         ./modules/fontier/preview/$1.$2          		[L,NC,QSA]
-    RewriteRule ^fontier/glyph/([0-9]+)-([0-9]+).(png|jpg|gif)  ./modules/fontier/glyph/$1-$2.$3     			[L,NC,QSA]
+    RewriteRule ^fontier/naming/([0-9]+).(png|jpg|gif)          	./modules/fontier/naming/$1.$2           		[L,NC,QSA]
+    RewriteRule ^fontier/preview/([0-9]+).(png|jpg|gif)         	./modules/fontier/preview/$1.$2          		[L,NC,QSA]
+    RewriteRule ^fontier/download/([0-9]+).(7z|ar|bz2|gz|lzma|lz|lzo|tar|tar.7z|tar.Z|tar.bz2|tar.gz|tar.lz|tar.lzma|tar.lzo|tar.xz|tgz|zip|rar|rar5|exe|zoo|zx)         		./modules/fontier/download.php?id=$1&format=$2 		[L,NC,QSA]
+    RewriteRule ^fontier/glyph/([0-9]+)-([0-9]+).(png|jpg|gif)  	./modules/fontier/glyph/$1-$2.$3     			[L,NC,QSA]
     RewriteRule ^fontier/font/([0-9]+)/(.*?).html      		./modules/fontier/font.php?id=$1			[L,NC,QSA]
 
 ## Maintenance & Scheduled Actions
