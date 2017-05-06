@@ -48,12 +48,6 @@ if (!$identity = $identitiesHandler->get($_GET['id']))
 	exit(0);
 }
 
-if ($fontierConfigsList['htaccess']) {
-	if (!strpos($identity->getNamingURL($_GET['format']), $_SERVER['REQUEST_URI'])) {
-		header('Location: ' . $identity->getNamingURL($_GET['format']));
-		exit(0);
-	}
-}
 
 header('Context-type: image/'.$_GET['format']);
 xoops_load('XoopsCache');

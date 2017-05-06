@@ -43,7 +43,7 @@
 	
 	if ($fontierConfigsList['htaccess']) {
 		if (!strpos($font->getFontURL('id'), $_SERVER['REQUEST_URI'])) {
-			header('Location: ' . $font->getFontURL('id'));
+			redirect_header($font->getFontURL('id'));
 			exit(0);
 		}
 	}

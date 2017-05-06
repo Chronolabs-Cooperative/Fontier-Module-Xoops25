@@ -201,7 +201,9 @@ class fontierIndexesHandler extends fontierXoopsObjectHandler
     			return false;
     		$parent_id = $obj[0]->getVar('id');
     	}
-    	$criteria = new Criteria('parent_id', $parent_id);
+    	$criteria = new CriteriaCompo(new Criteria('parent_id', $parent_id));
+	if ($parent_id==0)
+		$criteria->add(new Criteria("LENGTH(`base`)", "1"));
     	$criteria->setOrder('ASC');
     	$criteria->setSort('base');
     	if ($objs = $this->getObjects($criteria))

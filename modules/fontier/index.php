@@ -37,13 +37,13 @@
 		{
 			$url = XOOPS_URL . '/' . $fontierConfigsList['base'] . '/index.html';
 			if (!strpos($url, $_SERVER['REQUEST_URI'])) {
-				header('Location: ' . $url);
+				redirect_header($url);
 				exit(0);
 			}
 		} else {
 			$url = XOOPS_URL . '/' . $fontierConfigsList['base'] . "/$start/$limit/$base/index.html";
 			if (!strpos($url, $_SERVER['REQUEST_URI'])) {
-				header('Location: ' . $url);
+				redirect_header($url);
 				exit(0);
 			}
 		}

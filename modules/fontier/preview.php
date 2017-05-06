@@ -47,13 +47,6 @@
 		exit(0);
 	}
 		
-	if ($fontierConfigsList['htaccess']) {
-		if (!strpos($font->getPreviewURL($_GET['format']), $_SERVER['REQUEST_URI'])) {
-			header('Location: ' . $font->getPreviewURL($_GET['format']));
-			exit(0);
-		}
-	}
-	
 	header('Context-type: image/'.$_GET['format']);
 	xoops_load('XoopsCache');
 	if (!$data = XoopsCache::read($cachekey = _MD_FONTIER_MODULE_DIRNAME . "-preview-".md5($_GET['id'].$_GET['format'])))
