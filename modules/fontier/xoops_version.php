@@ -25,22 +25,22 @@ if (!defined('XOOPS_ROOT_PATH')) {
 	die('XOOPS root path not defined');
 }
 
-if (!defined(_MD_FONTIER_MODULE_DIRNAME))
+if (!defined('_MD_FONTIER_MODULE_DIRNAME'))
 	define('_MD_FONTIER_MODULE_DIRNAME', basename(__DIR__));
 	
 global $fontierModule, $fontierConfigsList, $fontierConfigs, $fontierConfigsOptions;
 
 if (empty($fontierModule))
 {
-	if (is_a($fontierModule = xoops_gethandler('module')->getByDirname(_MD_FONTIER_MODULE_DIRNAME), "XoopsModule"))
+	if (is_a($fontierModule = xoops_getHandler('module')->getByDirname(_MD_FONTIER_MODULE_DIRNAME), "XoopsModule"))
 	{
 		if (empty($fontierConfigsList))
 		{
-			$fontierConfigsList = xoops_gethandler('config')->getConfigList($fontierModule->getVar('mid'));
+			$fontierConfigsList = xoops_getHandler('config')->getConfigList($fontierModule->getVar('mid'));
 		}
 		if (empty($fontierConfigs))
 		{
-			$fontierConfigs = xoops_gethandler('config')->getConfigs(new Criteria('conf_modid', $fontierModule->getVar('mid')));
+			$fontierConfigs = xoops_getHandler('config')->getConfigs(new Criteria('conf_modid', $fontierModule->getVar('mid')));
 		}
 		if (empty($fontierConfigsOptions) && !empty($fontierConfigs))
 		{
@@ -229,7 +229,7 @@ $modversion['config'][$i]['title']       = '_MD_FONTIER_BASE';
 $modversion['config'][$i]['description'] = '_MD_FONTIER_BASE_DESC';
 $modversion['config'][$i]['formtype']    = 'text';
 $modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = 'fontier+';
+$modversion['config'][$i]['default']     = 'fontier';
 $modversion['config'][$i]['options']     = array();
 $modversion['config'][$i]['category']    = 'seo';
 ++$i;
@@ -245,8 +245,8 @@ $modversion['config'][$i]['category']    = 'seo';
 $modversion['config'][$i]['name']        = 'images';
 $modversion['config'][$i]['title']       = '_MD_FONTIER_IMAGES';
 $modversion['config'][$i]['description'] = '_MD_FONTIER_IMAGES_DESC';
-$modversion['config'][$i]['formtype']    = 'text';
-$modversion['config'][$i]['valuetype']   = 'select';
+$modversion['config'][$i]['formtype']    = 'select';
+$modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default']     = 'png';
 $modversion['config'][$i]['options']     = array('png'=>'png', 'jpg'=>'jpg', 'gif'=>'gif');
 $modversion['config'][$i]['category']    = 'seo';
@@ -263,8 +263,8 @@ $modversion['config'][$i]['category']    = 'mod';
 $modversion['config'][$i]['name']        = 'schedule';
 $modversion['config'][$i]['title']       = '_MD_FONTIER_SCHEDULE';
 $modversion['config'][$i]['description'] = '_MD_FONTIER_SCHEDULE_DESC';
-$modversion['config'][$i]['formtype']    = 'text';
-$modversion['config'][$i]['valuetype']   = 'select';
+$modversion['config'][$i]['formtype']    = 'select';
+$modversion['config'][$i]['valuetype']   = 'text';
 $modversion['config'][$i]['default']     = 'preloaders';
 $modversion['config'][$i]['options']     = array('preloaders'=>'preloaders', 'cronjob'=>'cronjob');
 $modversion['config'][$i]['category']    = 'mod';

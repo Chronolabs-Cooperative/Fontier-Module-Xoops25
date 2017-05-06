@@ -20,7 +20,8 @@
  * @link			https://sourceforge.net/p/xoops/svn/HEAD/tree/XoopsModules/fontier
  * @link			http://internetfounder.wordpress.com
  */
-
+echo basename(__FILE__)."::".__LINE__."<br/>";
 include_once 'header.php';
 include_once XOOPS_ROOT_PATH.'/include/notification_update.php';
+echo basename(__FILE__)."::".__LINE__."<br/>";
 ?>

@@ -1,22 +1,20 @@
 <{if $breadcrumb}>
 <div  style="text-align: left; vertical-align: middle; margin: 11px; padding: 9px; font-size: 3.5324em;" id="fontierbreadcrumb" class="breadcrumb">
-	<foreach from=$breadcrumb item=item}>
-		<{if $bready == 1}>
-			&nsbp;>>&nbsp;
-		<{/if}>
+	<a href="<{$xoops_url}>/modules/fontier/index.php">...</a>
+	<{foreach from=$breadcrumb item=item}>
+		&nbsp;>>&nbsp;
 		<a href="<{$item.url}>"><{$item.base}></a> 
-		<{assign item=bready value=1}>
 	<{/foreach}>
 </div>
 <div style="clear:both;">&nbsp;</div>
 <{/if}>
-<{if $bases}>
+<{if count($bases) > 1}>
 <h1><{$smarty.const._MN_FONTIER_FONT_BASES_H1}></h1>
 <div  style="text-align: center; vertical-align: middle; margin: 11px; padding: 9px;" id="fontierbases" class="floating floatleft bases">
-	<foreach from=$bases item=base}>
-	<div style="float:left; width=14%; margin: 7px; padding: 4px;">
+	<{foreach from=$bases item=base}>
+	<div style="float:left; width: 14%; margin: 7px; padding: 4px;">
 		<div style="text-align: center; font-size: 2.45em;" class="fontierbase">
-			<a href="<{$base.url}>"><{$base.base}></a>
+			[<a href="<{$base.url}>"><{$base.base}></a>]
 		</div>
 		<div style="text-align: center; font-size: 0.45em;" class="fontierviewsdownloads">
 			<a href="<{$base.url}>"><{$base.views}></a> / <a href="<{$base.url}>"><{$base.downloads}></a>

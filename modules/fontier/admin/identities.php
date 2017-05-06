@@ -23,25 +23,25 @@
 
 	require_once (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
 	
-	if (isset($_REQUEST['start']) && is_numeric($_REQUEST['start']))
+	xoops_loadLanguage('errors', _MD_FONTIER_MODULE_DIRNAME);
+	
+	if (isset($_REQUEST['start']))
 		$start = intval($_REQUEST['start']);
 	else 
 		$start = 0;
 	
-	if (isset($_REQUEST['limit']) && is_numeric($_REQUEST['limit']))
+	if (isset($_REQUEST['limit']))
 		$limit = intval($_REQUEST['limit']);
 	else
 		$limit = 30;
 	
 	$identitiesHandler = xoops_getModuleHandler('identities', _MD_FONTIER_MODULE_DIRNAME);
 	$criteria = new Criteria('polled',0,">");
-	$criteria->setOrder('`polled`');
-	$criteria->setSort('DESC');
 	$total = $identitiesHandler->getCount($criteria);
-	$criteria->setLimit($start);
+	$criteria->setStart($start);
 	$criteria->setLimit($limit);
 	$identities = $identitiesHandler->getObjects($criteria);
-	
+
 	if ($start>0 && count($identities)==0 && $total > 0)
 	{
 		$start = $start - $limit;

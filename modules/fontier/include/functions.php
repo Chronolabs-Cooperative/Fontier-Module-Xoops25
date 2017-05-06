@@ -22,8 +22,9 @@
  */
 
 
-if (!defined(_MD_CONVERT_MODULE_DIRNAME))
-	define('_MD_CONVERT_MODULE_DIRNAME', _MD_CONVERT_MODULE_DIRNAME);
+
+if (!defined('_MD_FONTIER_MODULE_DIRNAME'))
+	define('_MD_FONTIER_MODULE_DIRNAME', basename(dirname(__DIR__)));
 
 
 if (!function_exists("getEnumeratorValues")) {
@@ -47,7 +48,7 @@ if (!function_exists("getEnumeratorValues")) {
 	}
 }
 
-if (!function_exists("pleaseDecryptPassword")) {
+if (!function_exists("fontierDecryptPassword")) {
 	/**
 	 * Decrypts a password
 	 *
@@ -55,7 +56,7 @@ if (!function_exists("pleaseDecryptPassword")) {
 	 * @param string $cryptiopass
 	 * @return string:
 	 */
-	function pleaseDecryptPassword($password = '', $cryptiopass = '')
+	function fontierDecryptPassword($password = '', $cryptiopass = '')
 	{
 		$sql = "SELECT AES_DECRYPT(%s, %s) as `crypteec`";
 		list($result) = $GLOBALS["xoopsDB"]->fetchRow($GLOBALS["xoopsDB"]->queryF(sprintf($sql, $GLOBALS["xoopsDB"]->quote($password), $GLOBALS["xoopsDB"]->quote($cryptiopass))));
@@ -64,7 +65,7 @@ if (!function_exists("pleaseDecryptPassword")) {
 }
 
 
-if (!function_exists("pleaseEncryptPassword")) {
+if (!function_exists("fontierEncryptPassword")) {
 	/**
 	 * Encrypts a password
 	 *
@@ -72,7 +73,7 @@ if (!function_exists("pleaseEncryptPassword")) {
 	 * @param string $cryptiopass
 	 * @return string:
 	 */
-	function pleaseEncryptPassword($password = '', $cryptiopass = '')
+	function fontierEncryptPassword($password = '', $cryptiopass = '')
 	{
 		$sql = "SELECT AES_ENCRYPT(%s, %s) as `encrypic`";
 		list($result) = $GLOBALS["xoopsDB"]->fetchRow($GLOBALS["xoopsDB"]->queryF(sprintf($sql, $GLOBALS["xoopsDB"]->quote($password), $GLOBALS["xoopsDB"]->quote($cryptiopass))));
@@ -81,14 +82,14 @@ if (!function_exists("pleaseEncryptPassword")) {
 }
 
 
-if (!function_exists("pleaseCompressData")) {
+if (!function_exists("fontierCompressData")) {
 	/**
 	 * Compresses a textualisation
 	 *
 	 * @param string $data
 	 * @return string:
 	 */
-	function pleaseCompressData($data = '')
+	function fontierCompressData($data = '')
 	{
 		$sql = "SELECT COMPRESS(%s) as `compressed`";
 		list($result) = $GLOBALS["xoopsDB"]->fetchRow($GLOBALS["xoopsDB"]->queryF(sprintf($sql, $GLOBALS["xoopsDB"]->quote($data))));
@@ -97,14 +98,14 @@ if (!function_exists("pleaseCompressData")) {
 }
 
 
-if (!function_exists("pleaseDecompressData")) {
+if (!function_exists("fontierDecompressData")) {
 	/**
 	 * Compresses a textualisation
 	 *
 	 * @param string $data
 	 * @return string:
 	 */
-	function pleaseDecompressData($data = '')
+	function fontierDecompressData($data = '')
 	{
 		$sql = "SELECT DECOMPRESS(%s) as `compressed`";
 		list($result) = $GLOBALS["xoopsDB"]->fetchRow($GLOBALS["xoopsDB"]->queryF(sprintf($sql, $GLOBALS["xoopsDB"]->quote($data))));
@@ -150,6 +151,36 @@ if (!function_exists("getURIData")) {
 }
 
 
+if (!function_exists('sef'))
+{
+	
+	/**
+	 * Xoops safe encoded url elements
+	 *
+	 * @param unknown $datab
+	 * @param string $char
+	 * @return string
+	 */
+	function sef($datab, $char ='-')
+	{
+		$replacement_chars = array();
+		$accepted = array("a","b","c","d","e","f","g","h","i","j","k","l","m","n","m","o","p","q",
+				"r","s","t","u","v","w","x","y","z","0","9","8","7","6","5","4","3","2","1");
+		for($i=0;$i<256;$i++){
+			if (!in_array(strtolower(chr($i)),$accepted))
+				$replacement_chars[] = chr($i);
+		}
+		$return_data = (str_replace($replacement_chars,$char,$datab));
+		while(substr($return_data, 0, 1) == $char)
+			$return_data = substr($return_data, 1, strlen($return_data)-1);
+		while(substr($return_data, strlen($return_data)-1, 1) == $char)
+			$return_data = substr($return_data, 0, strlen($return_data)-1);
+		while(strpos($return_data, $char . $char))
+			$return_data = str_replace($char . $char, $char, $return_data);
+		return(strtolower($return_data));
+	}
+}
+
 if (!function_exists("getFontNameTags")) {
 	/**
 	 * Loads a field enumerator values
@@ -163,17 +194,19 @@ if (!function_exists("getFontNameTags")) {
 		if (strlen(trim($name))==0)
 			return '';
 		
-		$name = str_replace(array('.',',','<','>',"?","/","'","'",';',':','{','}','[',']','=','+','_','-',')','(','*','&','^',"%",'$',"@",'!','~','`',' '), '', $name);
+			
+		$name = str_replace(array('.',',','<','>',"?","/","'","'",';',':','{','}','[',']','=','+','_',')','(','*','&','^',"%",'$',"@",'!','~','`'), '', $name);
 		$tags = array();
 		$tag = '';
 		for($s=0;$s<strlen($name);$s++)
 		{
-			if (strlen($tag)>0 && (substr($name, $s, 1) == strtoupper(substr($name, $s, 1)) && (substr($name, $s, 1) == strtolower(substr($name, $s-1, 1)))) || (is_numeric(substr($name, $s, 1)) && !is_numeric(substr($name, $s-1, 1))))
+			if (strlen($tag)>0 && in_array(substr($name, $s, 1), array('-',' ')) ||(substr($name, $s, 1) == strtoupper(substr($name, $s, 1)) && (substr($name, $s, 1) == strtolower(substr($name, $s-1, 1)))) || (is_numeric(substr($name, $s, 1)) && !is_numeric(substr($name, $s-1, 1))))
 			{
 				$tags[] = $tag;
 				$tag = '';
 			}
-			$tag .=substr($name, $s, 1);
+			if (!in_array(substr($name, $s, 1), array('-',' ')))
+				$tag .=substr($name, $s, 1);
 		}
 		if (strlen($tag)>0)
 			$tags[] = $tag;

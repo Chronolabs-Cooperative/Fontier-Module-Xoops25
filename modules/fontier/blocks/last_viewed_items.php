@@ -30,8 +30,8 @@ function fontier_last_viewed_items_show($options)
 	$block = array('display' => $options[1]);
 	$identitiesHandler = xoops_getModuleHandler('identities' ,basename(dirname(__DIR__)));
 	$criteria = new CriteriaCompo(new Criteria('last', '0', '>'));
-	$criteria->setOrder('last');
-	$criteria->setSort('DESC');
+	$criteria->setOrder('DESC');
+	$criteria->setSort('last');
 	$criteria->setLimit($options[0]);
 	if ($identities = $identitiesHandler->getObjects($criteria))
 	{

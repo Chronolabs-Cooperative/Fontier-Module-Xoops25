@@ -4,21 +4,19 @@
 </div>
 <div style="clear:both;">&nbsp;</div>
 <table>
-	<thead>
-		<th>
-			<td class="head" style="font-size: 1.8310em !important;"><{$smarty.const._MA_FONTIER_ADMIN_IDENTITY_NAME}></td>
-			<td class="head" style="font-size: 1.8310em !important;"><{$smarty.const._MA_FONTIER_ADMIN_IDENTITY_VIEWS}></td>
-			<td class="head" style="font-size: 1.8310em !important;"><{$smarty.const._MA_FONTIER_ADMIN_IDENTITY_DOWNLOADS}></td>
-			<td class="head" style="font-size: 1.8310em !important;"><{$smarty.const._MA_FONTIER_ADMIN_IDENTITY_NAMING}></td>
-		</th>
-	</thead>
+	<tr class="head" >
+		<td class="head" style="font-size: 1.8310em !important;"><{$smarty.const._MA_FONTIER_ADMIN_IDENTITY_NAME}></td>
+		<td class="head" style="font-size: 1.8310em !important;"><{$smarty.const._MA_FONTIER_ADMIN_IDENTITY_VIEWS}></td>
+		<td class="head" style="font-size: 1.8310em !important;"><{$smarty.const._MA_FONTIER_ADMIN_IDENTITY_DOWNLOADS}></td>
+		<td class="head" style="font-size: 1.8310em !important;"><{$smarty.const._MA_FONTIER_ADMIN_IDENTITY_NAMING}></td>
+	</tr>
 	<tbody>
 	<{foreach from=$identities item=identity}>
 		<tr class="<{cycle values='even,odd'}>">
-			<td class="<{cycle values='even,odd'}>"><a href="<{$identity.url}>" target="_blank"><{$identity.name}></a></td>
-			<td class="<{cycle values='even,odd'}>"><a href="<{$identity.url}>" target="_blank"><{$identity.views}></a></td>
-			<td class="<{cycle values='even,odd'}>"><a href="<{$identity.url}>" target="_blank"><{$identity.downloads}></a></td>
-			<td class="<{cycle values='even,odd'}>"><a href="<{$identity.url}>" target="_blank"><img width="100%" src="<{$identity.naming}>" /></a></td>
+			<td class="<{cycle values='even,odd'}>" style="font-size: 1.8310em !important; vertical-align: middle; text-align: center;"><a href="<{$identity.url}>" target="_blank"><{$identity.name}></a></td>
+			<td class="<{cycle values='even,odd'}>" style="font-size: 2.1310em !important; vertical-align: middle; text-align: center;"><a href="<{$identity.url}>" target="_blank"><{$identity.views}></a></td>
+			<td class="<{cycle values='even,odd'}>" style="font-size: 2.1310em !important; vertical-align: middle; text-align: center;"><a href="<{$identity.url}>" target="_blank"><{$identity.downloads}></a></td>
+			<td class="<{cycle values='even,odd'}>"><a href="<{$identity.url}>" target="_blank"><img style="margin: 6px;" width="446px" src="<{$identity.naming}>" /></a></td>
 		</tr>
 	<{/foreach}>
 	</tbody>

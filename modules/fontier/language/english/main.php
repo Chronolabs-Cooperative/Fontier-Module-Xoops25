@@ -24,9 +24,9 @@
 
 define('_MN_FONTIER_FONT_VIEWS', 'Font Views');
 define('_MN_FONTIER_FONT_DOWNLOADS', 'Font Downloads');
-define('_MN_FONTIER_FONT_RANDOMS_H1', 'Random Selection from Font(s)!');
-define('_MN_FONTIER_FONT_BASES_H1', 'Font Naming Base Character(s)!');
-define('_MN_FONTIER_FONT_FONTS_H1', 'Font(s) in this Base Character(s)!');
+define('_MN_FONTIER_FONT_RANDOMS_H1', 'Random Selection from Fonts!');
+define('_MN_FONTIER_FONT_BASES_H1', 'Font Naming Base Characters!');
+define('_MN_FONTIER_FONT_FONTS_H1', 'Fonts in this Base Characters!');
 define('_MN_FONTIER_FONT_PREVIEW_H1','Font preview for');
 define('_MN_FONTIER_FONT_DOWNLOADING_H1','Font downloads for');
 define('_MN_FONTIER_FONT_GLYPHS_H2','Font glyphs for');

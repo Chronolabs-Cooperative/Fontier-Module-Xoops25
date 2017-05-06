@@ -24,6 +24,7 @@
 
 
 require_once (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
+$GLOBALS['xoopsLogger']->activated = false;
 set_time_limit(8444);
 
 global $fontierConfigsList;
@@ -49,7 +50,7 @@ if (!isset($_GET['format']))
 
 $identitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
 
-if (!$font = $identitiesHandler->get($_GET['id']) || (!empty($font) && $font->getVar('identity') == "" && $font->getVar('polled') == 0))
+if (!$font = $identitiesHandler->get($_GET['id']))
 {
 	redirect_header(XOOPS_URL . '/modules/'._MD_FONTIER_MODULE_DIRNAME.'/index.php', 4, _ERR_FONTIER_PREVIEW_IDNOTFOUND);
 	exit(0);
@@ -70,7 +71,7 @@ if (!$data = XoopsCache::read($cachekey = _MD_FONTIER_MODULE_DIRNAME . "-glyph-"
 	if ($fontierConfigsList['api_min_sleep']>0 && $fontierConfigsList['api_max_sleep']>0 && $fontierConfigsList['api_min_sleep']<$fontierConfigsList['api_max_sleep'])
 		sleep(mt_rand($fontierConfigsList['api_min_sleep'], $fontierConfigsList['api_max_sleep']));
 	// Calls API
-	$data = array('image'=>getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], str_replace("%identity%", $font->getVar('identity'), str_replace("%char%", $_GET['char'], str_replace("%format%", $_GET['format'], $fontierConfigsList['api_path_glyph']))))));
+	$data = array('image'=>getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], str_replace("%identity%", $font->getVar('identity'), str_replace("%char%", $_GET['char'], str_replace("%format%", $_GET['format'], $fontierConfigsList['api_path_glyphs']))))));
 	if (!empty($data) && $fontierConfigsList['cache_glyph'] > 0)
 	{
 		XoopsCache::write($cachekey, $data, $fontierConfigsList['cache_glyph']);

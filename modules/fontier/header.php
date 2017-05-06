@@ -22,15 +22,11 @@
  */
 
 	
-	if (!defined(_MD_FONTIER_MODULE_DIRNAME))
+	if (!defined('_MD_FONTIER_MODULE_DIRNAME'))
 		define('_MD_FONTIER_MODULE_DIRNAME', basename(__DIR__));
-		
-	require_once dirname(dirname(__DIR__)).'/mainfile.php';
 	
-	xoops_loadLanguage('errors', _MD_FONTIER_MODULE_DIRNAME);
-	
-	error_reporting(E_ERROR);
-	ini_set('display_errors', true);
+	require (dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'mainfile.php');
+	//xoops_loadLanguage('errors', _MD_FONTIER_MODULE_DIRNAME);
 	
 	/**
 	 * Opens Access Origin Via networking Route NPN
@@ -44,21 +40,21 @@
 	ini_set("zlib.output_compression", 'Off');
 	ini_set("zlib.output_compression_level", -1);
 	
-	require_once __DIR__.'/include/functions.php';
+	require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'functions.php');
 	
 	global $fontierModule, $fontierConfigsList, $fontierConfigs, $fontierConfigsOptions;
 	
 	if (empty($fontierModule))
 	{
-		if (is_a($fontierModule = xoops_gethandler('module')->getByDirname(_MD_FONTIER_MODULE_DIRNAME), "XoopsModule"))
+		if (is_a($fontierModule = xoops_getHandler('module')->getByDirname(_MD_FONTIER_MODULE_DIRNAME), "XoopsModule"))
 		{
 			if (empty($fontierConfigsList))
 			{
-				$fontierConfigsList = xoops_gethandler('config')->getConfigList($fontierModule->getVar('mid'));
+				$fontierConfigsList = xoops_getHandler('config')->getConfigList($fontierModule->getVar('mid'));
 			}
 			if (empty($fontierConfigs))
 			{
-				$fontierConfigs = xoops_gethandler('config')->getConfigs(new Criteria('conf_modid', $fontierModule->getVar('mid')));
+				$fontierConfigs = xoops_getHandler('config')->getConfigs(new Criteria('conf_modid', $fontierModule->getVar('mid')));
 			}
 			if (empty($fontierConfigsOptions) && !empty($fontierConfigs))
 			{
@@ -68,4 +64,4 @@
 		}
 	}
 	
-	require_once(__DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'functions.php');	
+		

@@ -30,8 +30,8 @@ function fontier_popular_downloads_items_show($options)
 	$block = array('display' => $options[1]);
 	$identitiesHandler = xoops_getModuleHandler('identities' ,basename(dirname(__DIR__)));
 	$criteria = new CriteriaCompo(new Criteria('downloads', '0', '>'));
-	$criteria->setOrder('downloads');
-	$criteria->setSort('DESC');
+	$criteria->setOrder('DESC');
+	$criteria->setSort('downloads');
 	$criteria->setLimit($options[0]);
 	if ($identities = $identitiesHandler->getObjects($criteria))
 	{

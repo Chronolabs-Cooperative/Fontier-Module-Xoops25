@@ -44,9 +44,9 @@ class fontierXoopsObject extends XoopsObject
 	function assignVar($key, $value)
 	{
 		if ($this->vars[$key]['data_type'] == XOBJ_DTYPE_OTHER) {
-			parent::assignVar($key, convertDecompressData($value));
+			parent::assignVar($key, fontierDecompressData($value));
 		} elseif (strpos($key, 'pass')||strpos($key, 'password')) {
-			parent::assignVar($key, convertDecryptPassword($value, PLEASE_SALT . PLEASE_SALT_WHENSET));
+			parent::assignVar($key, fontierDecryptPassword($value, PLEASE_SALT . PLEASE_SALT_WHENSET));
 		} else
 			parent::assignVar($key, $value);
 	}
@@ -66,9 +66,9 @@ class fontierXoopsObject extends XoopsObject
 				foreach(array_keys($object->vars) as $field)
 				{
 					if ($object->vars[$field]['data_type'] == XOBJ_DTYPE_OTHER) {
-						$object->vars[$field]['value'] = convertCompressData($object->vars[$field]['value']);
+						$object->vars[$field]['value'] = fontierCompressData($object->vars[$field]['value']);
 					} elseif (strpos($field, 'pass')||strpos($field, 'password')) {
-						$object->vars[$field]['value'] = convertEncryptPassword($object->vars[$field]['value'], PLEASE_SALT . PLEASE_SALT_WHENSET);
+						$object->vars[$field]['value'] = fontierEncryptPassword($object->vars[$field]['value'], PLEASE_SALT . PLEASE_SALT_WHENSET);
 					}
 				}
 			}
@@ -83,7 +83,7 @@ class fontierXoopsObject extends XoopsObject
 	 */
 	function getMD5($field = 'id')
 	{
-		return md5(PLEASE_SALT . $this->getVar($field) . PLEASE_SALT);
+		return md5(__DIR__ . $this->getVar($field) . __FILE__);
 	}
 }
 

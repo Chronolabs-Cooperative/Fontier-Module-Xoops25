@@ -23,6 +23,7 @@
 	
 	
 	require_once (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
+	$GLOBALS['xoopsLogger']->activated = false;
 	set_time_limit(8444);
 	
 	global $fontierConfigsList;

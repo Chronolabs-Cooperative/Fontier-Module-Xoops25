@@ -43,7 +43,7 @@ require_once (__DIR__ . DIRECTORY_SEPARATOR . 'objects.php');
  * @author Simon Roberts (wishcraft@users.sourceforge.net)
  * @copyright copyright (c) 2015 labs.coop
  */
-class fontierIdentitesIndexes extends fontierXoopsObject
+class fontierIdentities_indexes extends fontierXoopsObject
 {
 
 	var $handler = '';
@@ -70,7 +70,7 @@ class fontierIdentitesIndexes extends fontierXoopsObject
  * @author Simon Roberts (wishcraft@users.sourceforge.net)
  * @copyright copyright (c) 2015 labs.coop
  */
-class fontierIdentitesIndexesHandler extends fontierXoopsObjectHandler
+class fontierIdentities_indexesHandler extends fontierXoopsObjectHandler
 {
 	
 
@@ -86,7 +86,7 @@ class fontierIdentitesIndexesHandler extends fontierXoopsObjectHandler
 	 *
 	 * @var string
 	 */
-	var $child = 'fontierIdentitesIndexes';
+	var $child = 'fontierIdentities_indexes';
 	
 	/**
 	 * Child Object Identity Key

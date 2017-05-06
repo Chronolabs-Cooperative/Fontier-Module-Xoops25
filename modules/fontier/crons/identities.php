@@ -28,7 +28,7 @@
 	global $fontierConfigsList;
 	
 	$identitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
-	
+	$GLOBALS['xoopsDB']->queryF("START TRANSACTION");
 	if (!empty($fontierConfigsList['api_path']))
 	{
 		$data = json_decode(getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], $fontierConfigsList['api_path_json_identities'])), true);
@@ -45,3 +45,4 @@
 			}
 		}
 	}
+	$GLOBALS['xoopsDB']->queryF("COMMIT");

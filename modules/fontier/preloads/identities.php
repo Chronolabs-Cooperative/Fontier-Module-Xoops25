@@ -17,14 +17,13 @@
 
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'header.php';
-
 class FontierIdentitiesPreload extends XoopsPreloadItem
 {
 
 	
 	function eventCoreFooterEnd($args)
 	{
+		require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'header.php';
 		
 		global $fontierConfigsList;
 		
@@ -35,6 +34,7 @@ class FontierIdentitiesPreload extends XoopsPreloadItem
 			require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'crons' . DIRECTORY_SEPARATOR . 'identities.php';
 			XoopsCache::write("preloader-identities", array('time'=>time()), $fontierConfigsList['poll_identities']);
 		}
+		
 	}
 }
 

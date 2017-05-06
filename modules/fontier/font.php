@@ -35,7 +35,7 @@
 	
 	$identitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
 	
-	if (!$font = $identitiesHandler->get($_GET['id']) || (!empty($font) && $font->getVar('identity') == "" && $font->getVar('polled') == 0))
+	if (!$font = $identitiesHandler->get($_GET['id']))
 	{
 		redirect_header(XOOPS_URL . '/modules/'._MD_FONTIER_MODULE_DIRNAME.'/index.php', 4, _ERR_FONTIER_PREVIEW_IDNOTFOUND);
 		exit(0);
@@ -55,18 +55,19 @@
 	$GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . "/modules/" . _MD_FONTIER_MODULE_DIRNAME . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/style.css');
 	
 	$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', 'Font: ' . $font->getVar('name'));
+	$GLOBALS['xoopsTpl']->assign('tags', $fontierConfigsList['tags']);
 	$GLOBALS['xoopsTpl']->assign('name', $font->getVar('name'));
 	$GLOBALS['xoopsTpl']->assign('views', $font->getVar('views'));
 	$GLOBALS['xoopsTpl']->assign('downloads', $font->getVar('downloads'));
-	$GLOBALS['xoopsTpl']->assign('diz', $font->getVar('diz'));
-	$GLOBALS['xoopsTpl']->assign('css', $font->getVar('css'));
+	$GLOBALS['xoopsTpl']->assign('diz', ($font->getVar('diz')));
+	$GLOBALS['xoopsTpl']->assign('css', ($font->getVar('css')));
 	$GLOBALS['xoopsTpl']->assign('css_url', $font->getCSSURL());
-	$GLOBALS['xoopsTpl']->assign('preview', $font->getPreviewURL($fontierConfigsList['image_format']));
-	$GLOBALS['xoopsTpl']->assign('naming', $font->getNamingURL($fontierConfigsList['image_format']));
+	$GLOBALS['xoopsTpl']->assign('preview', $font->getPreviewURL($fontierConfigsList['images']));
+	$GLOBALS['xoopsTpl']->assign('naming', $font->getNamingURL($fontierConfigsList['images']));
 	$GLOBALS['xoopsTpl']->assign('downloading', $font->getDownloadURLsArray(explode(",",$fontierConfigsList['download_formats']), ucwords(strtolower($font->getVar('name')))));
-	$GLOBALS['xoopsTpl']->assign('glyphs', $font->getGlyphsURLArray($fontierConfigsList['image_format']));
+	$GLOBALS['xoopsTpl']->assign('glyphs', $font->getGlyphsURLArray($fontierConfigsList['images']));
 	$GLOBALS['xoopsTpl']->assign('randoms', $identitiesHandler->getRandoms($font->getVar('thirds'), 6));
-	if (file_exist(XOOPS_ROOT_PATH."/modules/tag/include/tagbar.php") && $fontierConfigsList['tags'])
+	if (file_exists(XOOPS_ROOT_PATH."/modules/tag/include/tagbar.php") && $fontierConfigsList['tags'])
 	{
 		include_once XOOPS_ROOT_PATH."/modules/tag/include/tagbar.php";
 		$xoopsTpl->assign('tagbar', tagBar($font->getVar('id'), $catid = 0));

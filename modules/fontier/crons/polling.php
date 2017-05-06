@@ -30,25 +30,26 @@
 	
 	$identitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
 	$indexesHandler= xoops_getModuleHandler('indexes',_MD_FONTIER_MODULE_DIRNAME);
-	$criteria = new Criteria('polling', 0);
+	$criteria = new Criteria('polled', 0);
 	if (!empty($fontierConfigsList['api_path']) && $identitiesHandler->getCount($criteria) > 0)
 	{
-		$criteria->order('RAND()');
+		$criteria->setOrder('RAND()');
 		if ($fontierConfigsList['num_polled_items'] > 0)
 			$criteria->setLimit($fontierConfigsList['num_polled_items']);
 		if ($fonts = $identitiesHandler->getObjects($criteria))
 		{
+			$GLOBALS['xoopsDB']->queryF("START TRANSACTION");
 			foreach($fonts as $font)
 			{
 				$font->setVar('diz', getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], str_replace("%identity%", $font->getVar('identity'), $fontierConfigsList['api_path_diz']))));
 				$font->setVar('css', getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], str_replace("%identity%", $font->getVar('identity'), $fontierConfigsList['api_path_css']))));
-				$font->setVar('json', json_decode($data = getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], str_replace("%identity%", $font->getVar('identity'), $fontierConfigsList['api_path_json'])))));
-				$font->setVar('name', $data['FontName']);
+				$font->setVar('json', $data = json_decode(getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], str_replace("%identity%", $font->getVar('identity'), $fontierConfigsList['api_path_json']))), true));
+				$font->setVar('name', $data['FontFullName']);
 				$font->setVar('referee', $data['referee']);
 				$font->setVar('barcode', $data['barcode']);
-				$font->setVar('base', substr(strtolower($data['FontName']), 0, 1));
-				$font->setVar('second', substr(strtolower($data['FontName']), 0, 2));
-				$font->setVar('thirds', substr(strtolower($data['FontName']), 0, 3));
+				$font->setVar('base', substr(strtolower(urlencode($data['FontFullName'])), 0, 1));
+				$font->setVar('second', substr(strtolower(urlencode($data['FontFullName'])), 0, 2));
+				$font->setVar('thirds', substr(strtolower(urlencode($data['FontFullName'])), 0, 3));
 				$glyphs = array();
 				for($utf=31;$utf<128;$utf++)
 					if ($utf > 31 && $utf< 124)
@@ -57,54 +58,58 @@
 				$font->setVar('glyphs', $glyphs);
 				$font->setVar('glyphed', time());
 				$font->setVar('polled', time());
-				$font->setVar('tags', $tags = getFontNameTags($data['FontName']));
-				if (strlen($font->getVar('diz')) && strlen($font->getVar('css')) && count(strlen($font->getVar('json'))) && strlen($font->getVar('name')))
+				$font->setVar('tags', $tags = getFontNameTags($font->getVar('name')));
+			
+				if ($id = $identitiesHandler->insert($font, true))
 				{
-					if ($id = $identitiesHandler->insert($font, true))
+					if ($fontierConfigsList['tags'] && file_exists(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'tag' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'tag.php'))
 					{
-						if ($fontierConfigsList['tags'] && file_exists(dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'tag' . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'tag.php'))
-						{
-							$tag_handler = xoops_getmodulehandler('tag', 'tag');
-							$tag_handler->updateByItem($tags, $id, _MD_FONTIER_MODULE_DIRNAME, 0);
-						}
-						$criteria = new Criteria('base', $font->getVar('base'));
-						if ($indexesHandler->getCount($criteria) == 0)
-						{
-							$index = $indexesHandler->create();
-							$index->setVar('base', $font->getVar('base'));
-							$index = $identitiesHandler->get($identitiesHandler->insert($index, true))->addFontID($font->getVar('id'));
-						} else {
-							$index = $indexesHandler->getByBase($font->getVar('base'));
-							$index->addFontID($font->getVar('id'));
-						}
-						$first_id = $identitiesHandler->insert($index, true);
-						$criteria = new Criteria('base', $font->getVar('second'));
-						if ($indexesHandler->getCount($criteria) == 0)
-						{
-							$index = $indexesHandler->create();
-							$index->setVar('base', $font->getVar('second'));
-							$index->setVar('parent_id', $first_id);
-							$index = $identitiesHandler->get($identitiesHandler->insert($index, true))->addFontID($font->getVar('id'));
-						} else {
-							$index = $indexesHandler->getByBase($font->getVar('second'));
-							$index->addFontID($font->getVar('id'));
-						}
-						$second_id = $identitiesHandler->insert($index, true);
-						$criteria = new Criteria('base', $font->getVar('thirds'));
-						if ($indexesHandler->getCount($criteria) == 0)
-						{
-							$index = $indexesHandler->create();
-							$index->setVar('base', $font->getVar('thirds'));
-							$index->setVar('parent_id', $second_id);
-							$index = $identitiesHandler->get($identitiesHandler->insert($index, true))->addFontID($font->getVar('id'));
-						} else {
-							$index = $indexesHandler->getByBase($font->getVar('thirds'));
-							$index->addFontID($font->getVar('id'));
-						}
-						$third_id = $identitiesHandler->insert($index, true);
+						$tag_handler = xoops_getmodulehandler('tag', 'tag');
+						$tag_handler->updateByItem($tags, $id, basename(dirname(__DIR__)), 0);
 					}
+					$criteria = new Criteria('base', $font->getVar('base'));
+					if ($indexesHandler->getCount($criteria) == 0)
+					{
+						$index = $indexesHandler->create();
+						$index->setVar('base', $font->getVar('base'));
+						$indexesHandler->insert($index, true);
+					}
+					$index = $indexesHandler->getByBase($font->getVar('base'));
+					if (is_a($index, 'fontierIndexes'))
+						$index->addFontID($font->getVar('id'));
+					else
+						die('Missing Index for Base: '.$font->getVar('base'));
+					$first_id = $indexesHandler->insert($index, true);
+					$criteria = new Criteria('base', $font->getVar('second'));
+					if ($indexesHandler->getCount($criteria) == 0)
+					{
+						$index = $indexesHandler->create();
+						$index->setVar('base', $font->getVar('second'));
+						$index->setVar('parent_id', $first_id);
+						$indexesHandler->insert($index, true);
+					}
+					$index = $indexesHandler->getByBase($font->getVar('second'));
+					if (is_a($index, 'fontierIndexes'))
+						$index->addFontID($font->getVar('id'));
+					else
+						die('Missing Index for Base: '.$font->getVar('second'));
+					$second_id = $indexesHandler->insert($index, true);
+					$criteria = new Criteria('base', $font->getVar('thirds'));
+					if ($indexesHandler->getCount($criteria) == 0)
+					{
+						$index = $indexesHandler->create();
+						$index->setVar('base', $font->getVar('thirds'));
+						$index->setVar('parent_id', $second_id);
+						$indexesHandler->insert($index, true);
+					}
+					$index = $indexesHandler->getByBase($font->getVar('thirds'));
+					if (is_a($index, 'fontierIndexes'))
+						$index->addFontID($font->getVar('id'));
+					else
+						die('Missing Index for Base: '.$font->getVar('thirds'));
+					$third_id = $indexesHandler->insert($index, true);
 				}
 			}
+			$GLOBALS['xoopsDB']->queryF("COMMIT");
 		}
 	}
-		

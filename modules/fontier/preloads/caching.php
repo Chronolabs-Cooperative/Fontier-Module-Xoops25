@@ -17,20 +17,20 @@
 
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
-require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'header.php';
-
 class FontierCachingPreload extends XoopsPreloadItem
 {
 
 	
 	function eventCoreFooterEnd($args)
 	{
+		require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'header.php';
 		global $fontierConfigsList;
 		
 		xoops_load("XoopsCache");
 		
 		if ($fontierConfigsList['schedule'] == 'preloaders')
-			require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'crons' . DIRECTORY_SEPARATOR . 'caching.php';		
+			require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'crons' . DIRECTORY_SEPARATOR . 'caching.php';
+		
 	}
 }
 

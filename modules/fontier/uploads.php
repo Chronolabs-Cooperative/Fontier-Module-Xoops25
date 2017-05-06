@@ -27,8 +27,8 @@
 	global $fontierConfigsList;
 	
 	if ($GLOBALS['fontierConfigsList']['htaccess']) {
-		if (!strpos(xoops_getModuleHandler('identities',_MD_CONVERT_MODULE_DIRNAME)->getUploadingURL(), $_SERVER['REQUEST_URI'])) {
-			header('Location: ' . xoops_getModuleHandler('identities',_MD_CONVERT_MODULE_DIRNAME)->getUploadingURL());
+		if (!strpos(xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME)->getUploadingURL(), $_SERVER['REQUEST_URI'])) {
+			header('Location: ' . xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME)->getUploadingURL());
 			exit(0);
 		}
 	}
@@ -40,7 +40,7 @@
 		if ($fontierConfigsList['api_min_sleep']>0 && $fontierConfigsList['api_max_sleep']>0 && $fontierConfigsList['api_min_sleep']<$fontierConfigsList['api_max_sleep'])
 			sleep(mt_rand($fontierConfigsList['api_min_sleep'], $fontierConfigsList['api_max_sleep']));
 		// Calls API
-		$data = array('html'=>getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], $fontierConfigsList['api_path_uploads_form']), array('return' => xoops_getModuleHandler('identities',_MD_CONVERT_MODULE_DIRNAME)->getUploadingURL())));
+		$data = array('html'=>getURIData(str_replace("%apipath%", $fontierConfigsList['api_path'], $fontierConfigsList['api_path_uploads_form']), array('return' => xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME)->getUploadingURL())));
 		if (!empty($data) && $fontierConfigsList['cache_forms'] > 0)
 		{
 			XoopsCache::write($cachekey, $data, $fontierConfigsList['cache_forms']);

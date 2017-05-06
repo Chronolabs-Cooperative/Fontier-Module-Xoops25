@@ -84,7 +84,7 @@ class fontierIndexes extends fontierXoopsObject
     	if (empty($id))
     		return false;
     	
-    	$identitiesindexeshandler = xoops_getModuleHandler('identities_indexes', __MD_FONTIER_MODULE_DIRNAME);
+    	$identitiesindexeshandler = xoops_getModuleHandler('identities_indexes', basename(dirname(__DIR__)));
     	$obj = $identitiesindexeshandler->create();
     	$obj->setVar('index_id', $this->getVar('id'));
     	$obj->setVar('identity_id', $id);
@@ -168,15 +168,15 @@ class fontierIndexesHandler extends fontierXoopsObjectHandler
     	if (is_null($base))
     		return false;
     	$criteria = new Criteria('base', $base);
-    	$top = $this->getVar($criteria);
+    	$top = $this->getObjects($criteria);
     	if (!isset($top[0]))
     		return false;
     	$criteria = new Criteria('id', $top[0]->getVar('parent_id'));
-    	$second = $this->getVar($criteria);
+    	$second = $this->getObjects($criteria);
     	if (!isset($second[0]))
     		return array($top[0]->getVar('base') => array('base' => $top[0]->getVar('base'), 'url' => $top[0]->getIndexBrowseURL()));
     	$criteria = new Criteria('id', $second[0]->getVar('parent_id'));
-    	$third = $this->getVar($criteria);
+    	$third = $this->getObjects($criteria);
     	if (!isset($third[0]))
     		return array(	$second[0]->getVar('base') => array('base' => $second[0]->getVar('base'), 'url' => $second[0]->getIndexBrowseURL()),
     						$top[0]->getVar('base') => array('base' => $top[0]->getVar('base'), 'url' => $top[0]->getIndexBrowseURL())			);
@@ -196,14 +196,14 @@ class fontierIndexesHandler extends fontierXoopsObjectHandler
     		$parent_id = 0;
     	else {
     		$criteria = new Criteria('base', $base);
-    		$obj = $this->getVar($criteria);
+    		$obj = $this->getObjects($criteria);
     		if (!isset($obj[0]))
     			return false;
-    		$parent_id = $obj[0]->getVar('parent_id');
+    		$parent_id = $obj[0]->getVar('id');
     	}
     	$criteria = new Criteria('parent_id', $parent_id);
-    	$criteria->setOrder('base');
-    	$criteria->setSort('ASC');
+    	$criteria->setOrder('ASC');
+    	$criteria->setSort('base');
     	if ($objs = $this->getObjects($criteria))
     	{
     		$result = array();
@@ -236,8 +236,8 @@ class fontierIndexesHandler extends fontierXoopsObjectHandler
     		return false;
     	if (!empty($excludeid) && $excludeid != 0)
     		$criteria->add(new Criteria('id', $excludeid, '!='));
-    	$criteria->order('`name`');
-    	$criteria->sort('ASC');
+    	$criteria->setOrder('ASC');
+    	$criteria->setSort('`name`');
     	if ($start != 0 || $limit != 0)
     	{
     		$criteria->start($start);
@@ -293,12 +293,13 @@ class fontierIndexesHandler extends fontierXoopsObjectHandler
     	if (empty($base))
     		return false;
     	
-    	$sql = "SELECT `id` FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `base` LIKE '$base'";
-    	list($id) =  $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
-    	
-    	if (isset($id) && !empty($id))
-    		return $this->get($id);
-    	
+    	$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `base` LIKE '$base'";
+    	if ($row =  $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->queryF($sql)))
+    	{
+	    	$obj = new fontierIndexes();
+	    	$obj->assignVars($row);
+	    	return $obj;
+    	}
     	return false;
     }
     

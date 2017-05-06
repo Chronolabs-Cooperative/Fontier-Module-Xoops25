@@ -37,6 +37,10 @@ define('_MD_FONTIER_ADMINMENU_HOME','Fontier+');
 define('_MD_FONTIER_ADMINMENU_FONTS','Polled Fonts');
 define('_MD_FONTIER_ADMINMENU_ABOUT','Fontier+ About');
 
+
+// Module User Menus
+define('_MD_FONTIER_MENU_UPLOADS', 'Upload Fonts to API');
+define('_MD_FONTIER_MENU_RELEASES', 'Subscribe to Releases');
 // Module definition headers for xoops_version.php
 define('_MD_FONTIER_MODULE_NAME','Fontier+');
 define('_MD_FONTIER_MODULE_VERSION','1.01');
@@ -93,8 +97,8 @@ define('_MD_FONTIER_BASE','Base .htaccess path');
 define('_MD_FONTIER_BASE_DESC','');
 define('_MD_FONTIER_HTML','Extension for HTML output with SEO URL');
 define('_MD_FONTIER_HTML_DESC','');
-define('_MD_FONTIER_IMAGE','File extension and type of image to use with API');
-define('_MD_FONTIER_IMAGE_DESC','');
+define('_MD_FONTIER_IMAGES','File extension and type of image to use with API');
+define('_MD_FONTIER_IMAGES_DESC','');
 define('_MD_FONTIER_TAGS','Support Tag 2.3+ Module');
 define('_MD_FONTIER_TAGS_DESC','');
 define('_MD_FONTIER_SCHEDULE','Maintenance scheduling method');

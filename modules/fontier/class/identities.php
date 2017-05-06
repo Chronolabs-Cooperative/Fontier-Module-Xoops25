@@ -76,7 +76,7 @@ class fontierIdentities extends fontierXoopsObject
         self::initVar('views', XOBJ_DTYPE_INT, 0, false);
         self::initVar('css', XOBJ_DTYPE_OBJECT, '', false);
         self::initVar('glyphs', XOBJ_DTYPE_ARRAY, array(), false);
-        self::initVar('json', XOBJ_DTYPE_ARRAY, '', false);
+        self::initVar('json', XOBJ_DTYPE_ARRAY, array(), false);
         self::initVar('diz', XOBJ_DTYPE_OBJECT, '', false);
         self::initVar('name', XOBJ_DTYPE_TXTBOX, '', false, 255);
         self::initVar('tags', XOBJ_DTYPE_TXTBOX, '', false, 255);
@@ -108,7 +108,7 @@ class fontierIdentities extends fontierXoopsObject
     					'views' => $this->getVar('views'),
     					'downloads' => $this->getVar('downloads'),
     					'url' => $this->getFontURL('id'),
-    					'naming' => $this->getNamingURL($fontierConfigsList['image_format'])		);
+    					'naming' => $this->getNamingURL($fontierConfigsList['images'])		);
     }
     
     /**
@@ -121,13 +121,13 @@ class fontierIdentities extends fontierXoopsObject
     	$GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . "/modules/" . _MD_FONTIER_MODULE_DIRNAME . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/style.css');
     	xoops_loadLanguage('main', _MD_FONTIER_MODULE_DIRNAME);
     	$html = "<div style=\"margin: 8px; padding: 3px; text-align: center;\">\n
-	<img  id=\"fontierfontnaming\" src=\"".$this->getNamingURL($fontierConfigsList['image_format']) ."\" title=\"" . $this->getVar('name') ."\" alt=\"" . $this->getVar('name') ."\" width='89%' />\n
+	<img  id=\"fontierfontnaming\" src=\"".$this->getNamingURL($fontierConfigsList['images']) ."\" title=\"" . $this->getVar('name') ."\" alt=\"" . $this->getVar('name') ."\" width='89%' />\n
 	<br />\n
 	<span id=\"fontierviewsdownloads\">"._MN_FONTIER_FONT_VIEWS.":&nbsp;".$this->getVar('views')."&nbsp;/&nbsp;"._MN_FONTIER_FONT_DOWNLOADS.":&nbsp;".$this->getVar('downloads')."</span>\n
 </div>\n
 <h1>"._MN_FONTIER_FONT_PREVIEW_H1." ".$this->getVar('name')."</h1>\n
 <div style=\"margin: 8px; padding: 3px; text-align: center;\">\n
-	<img  id=\"fontierfontnaming\" src=\"".$this->getPreviewURL($fontierConfigsList['image_format'])."\" title=\"".$this->getVar('name')."\" alt=\"".$this->getVar('name')."\" width='97%' />\n
+	<img  id=\"fontierfontnaming\" src=\"".$this->getPreviewURL($fontierConfigsList['images'])."\" title=\"".$this->getVar('name')."\" alt=\"".$this->getVar('name')."\" width='97%' />\n
 	<br />\n
 </div>\n
 <h1>"._MN_FONTIER_FONT_DOWNLOADING_H1." ".$this->getVar('name')."</h1>\n
@@ -170,9 +170,9 @@ class fontierIdentities extends fontierXoopsObject
     	global $fontierConfigsList;
     	
     	if ($fontierConfigsList['htaccess']) {
-    		return XOOPS_URL . '/' . $fontierConfigsList['base'] . '/font/'.urlencode($this->get($field)) . '/' . sef($this->get('name')) . '.' . $fontierConfigsList['html'];
+    		return XOOPS_URL . '/' . $fontierConfigsList['base'] . '/font/'.urlencode($this->getVar($field)) . '/' . sef($this->getVar('name')) . '.' . $fontierConfigsList['html'];
     	}
-    	return XOOPS_URL . '/modules/' . _MD_FONTIER_MODULE_DIRNAME. '/font.php?'.$field.'='.urlencode($this->get($field));
+    	return XOOPS_URL . '/modules/' . _MD_FONTIER_MODULE_DIRNAME. '/font.php?'.$field.'='.urlencode($this->getVar($field));
     }
     
     /**
@@ -375,7 +375,7 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
      */
     function getTotalDownloads()
     {
-    	$sql = "SELECT sum(`downloads`) as `downloads` FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0";
+    	$sql = "SELECT sum(`downloads`) as `downloads` FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0'";
     	list($downloads) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
     	return $downloads;
     }
@@ -386,7 +386,7 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
      */
     function getTotalViews()
     {
-    	$sql = "SELECT sum(`views`) as `views` FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0";
+    	$sql = "SELECT sum(`views`) as `views` FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0'";
     	list($views) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
     	return $views;
     }
@@ -431,16 +431,16 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
     {
     	if (is_null($base))
     	{
-    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 ORDER BY RAND() LIMIT $limit";
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' ORDER BY RAND() LIMIT $limit";
     	} elseif (strlen($base) == 1)
     	{
-    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `base` LIKE '$base' ORDER BY RAND() LIMIT $limit";
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `base` LIKE '$base' ORDER BY RAND() LIMIT $limit";
     	} elseif (strlen($base) == 2)
     	{
-    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `second` LIKE '$base' ORDER BY RAND() LIMIT $limit";
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `second` LIKE '$base' ORDER BY RAND() LIMIT $limit";
     	} elseif (strlen($base) == 3)
     	{
-    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `thirds` LIKE '$base' ORDER BY RAND() LIMIT $limit";
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `thirds` LIKE '$base' ORDER BY RAND() LIMIT $limit";
     	}
     	$result = $GLOBALS['xoopsDB']->queryF($sql);
     	$return = $objs = array();
@@ -475,16 +475,16 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
     {
     	if (is_null($base))
     	{
-    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 ORDER BY `polling` DESC LIMIT $start, $limit";
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' ORDER BY `polled` DESC LIMIT $start, $limit";
     	} elseif (strlen($base) == 1)
     	{
-    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `base` LIKE '$base' ORDER BY `polling` DESC LIMIT $start, $limit";
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `base` LIKE '$base' ORDER BY `polled` DESC LIMIT $start, $limit";
     	} elseif (strlen($base) == 2)
     	{
-    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `second` LIKE '$base' ORDER BY `polling` DESC LIMIT $start, $limit";
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `second` LIKE '$base' ORDER BY `polled` DESC LIMIT $start, $limit";
     	} elseif (strlen($base) == 3)
     	{
-    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `thirds` LIKE '$base' ORDER BY `polling` DESC LIMIT $start, $limit";
+    		$sql = "SELECT * FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `thirds` LIKE '$base' ORDER BY `polled` DESC LIMIT $start, $limit";
     	}
     	$result = $GLOBALS['xoopsDB']->queryF($sql);
     	$return = $objs = array();
@@ -518,16 +518,16 @@ class fontierIdentitiesHandler extends fontierXoopsObjectHandler
     {
     	if (is_null($base))
     	{
-    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 ORDER BY `polling` DESC";
+    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' ORDER BY `polled` DESC";
     	} elseif (strlen($base) == 1)
     	{
-    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `base` LIKE '$base' ORDER BY `polling` DESC";
+    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `base` LIKE '$base' ORDER BY `polled` DESC";
     	} elseif (strlen($base) == 2)
     	{
-    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `second` LIKE '$base' ORDER BY `polling` DESC";
+    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `second` LIKE '$base' ORDER BY `polled` DESC";
     	} elseif (strlen($base) == 3)
     	{
-    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE `polling` > 0 AND `thirds` LIKE '$base' ORDER BY `polling` DESC";
+    		$sql = "SELECT count(*) FROM `" . $GLOBALS['xoopsDB']->prefix($this->tbl) . "` WHERE NOT `polled` = '0' AND `thirds` LIKE '$base' ORDER BY `polled` DESC";
     	}
     	list($count) = $GLOBALS['xoopsDB']->fetchRow($GLOBALS['xoopsDB']->queryF($sql));
     	return $count;

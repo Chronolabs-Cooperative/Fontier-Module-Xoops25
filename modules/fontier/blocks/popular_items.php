@@ -30,8 +30,8 @@ function fontier_popular_items_show($options)
 	$block = array('display' => $options[1]);
 	$identitiesHandler = xoops_getModuleHandler('identities' ,basename(dirname(__DIR__)));
 	$criteria = new CriteriaCompo(new Criteria('views', '0', '>'));
-	$criteria->setOrder('views');
-	$criteria->setSort('DESC');
+	$criteria->setOrder('DESC');
+	$criteria->setSort('views');
 	$criteria->setLimit($options[0]);
 	if ($identities = $identitiesHandler->getObjects($criteria))
 	{

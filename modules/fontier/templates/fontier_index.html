@@ -1,10 +1,10 @@
 <{if $bases}>
 <h1><{$smarty.const._MN_FONTIER_FONT_BASES_H1}></h1>
 <div  style="text-align: center; vertical-align: middle; margin: 11px; padding: 9px;" id="fontierbases" class="floating floatleft bases">
-	<foreach from=$bases item=base}>
-	<div style="float:left; width=14%; margin: 7px; padding: 4px;">
+	<{foreach from=$bases item=base}>
+	<div style="float:left; width: 14%; margin: 7px; padding: 4px;">
 		<div style="text-align: center; font-size: 2.45em;" class="fontierbase">
-			<a href="<{$base.url}>"><{$base.base}></a>
+			<a href="<{$base.url}>">[&nbsp;<{$base.base}>&nbsp;]</a>
 		</div>
 		<div style="text-align: center; font-size: 0.45em;" class="fontierviewsdownloads">
 			<a href="<{$base.url}>"><{$base.views}></a> / <a href="<{$base.url}>"><{$base.downloads}></a>

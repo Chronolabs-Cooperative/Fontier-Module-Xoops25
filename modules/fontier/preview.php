@@ -22,6 +22,7 @@
  */
 
 	require_once (__DIR__ . DIRECTORY_SEPARATOR . 'header.php');
+	$GLOBALS['xoopsLogger']->activated = false;
 	set_time_limit(8444);
 	
 	global $fontierConfigsList;
@@ -40,7 +41,7 @@
 	
 	$identitiesHandler= xoops_getModuleHandler('identities',_MD_FONTIER_MODULE_DIRNAME);
 	
-	if (!$font = $identitiesHandler->get($_GET['id']) || (!empty($font) && $font->getVar('identity') == "" && $font->getVar('polled') == 0))
+	if (!$font = $identitiesHandler->get($_GET['id']))
 	{
 		redirect_header(XOOPS_URL . '/modules/'._MD_FONTIER_MODULE_DIRNAME.'/index.php', 4, _ERR_FONTIER_PREVIEW_IDNOTFOUND);
 		exit(0);

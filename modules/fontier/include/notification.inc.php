@@ -20,13 +20,13 @@
  * @link			https://sourceforge.net/p/xoops/svn/HEAD/tree/XoopsModules/fontier
  * @link			http://internetfounder.wordpress.com
  */
-
+echo basename(__FILE__)."::".__LINE__."<br/>";
 if (!defined('XOOPS_ROOT_PATH')) {
 	die("XOOPS root path not defined");
 }
-
+echo basename(__FILE__)."::".__LINE__."<br/>";
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'header.php';
-
+echo basename(__FILE__)."::".__LINE__."<br/>";
 function fontier_notify_iteminfo($category, $item_id)
 {
 	if ($category == 'global') {
