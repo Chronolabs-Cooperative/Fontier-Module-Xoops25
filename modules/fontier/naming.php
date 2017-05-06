@@ -49,8 +49,8 @@ if (!$identity = $identitiesHandler->get($_GET['id']))
 }
 
 if ($fontierConfigsList['htaccess']) {
-	if (!strpos($identity->getNamingURL('id', $_GET['format']), $_SERVER['REQUEST_URI'])) {
-		header('Location: ' . $identity->getNamingURL('id', $_GET['format']));
+	if (!strpos($identity->getNamingURL($_GET['format']), $_SERVER['REQUEST_URI'])) {
+		header('Location: ' . $identity->getNamingURL($_GET['format']));
 		exit(0);
 	}
 }

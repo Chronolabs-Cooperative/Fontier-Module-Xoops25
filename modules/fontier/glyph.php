@@ -57,8 +57,8 @@ if (!$font = $identitiesHandler->get($_GET['id']))
 }
 
 if ($fontierConfigsList['htaccess']) {
-	if (!strpos($font->getGlyphURL('id', $_GET['char'], $_GET['format']), $_SERVER['REQUEST_URI'])) {
-		header('Location: ' . $font->getGlyphURL('id', $_GET['char'], $_GET['format']));
+	if (!strpos($font->getGlyphURL($_GET['char'], $_GET['format']), $_SERVER['REQUEST_URI'])) {
+		header('Location: ' . $font->getGlyphURL($_GET['char'], $_GET['format']));
 		exit(0);
 	}
 }

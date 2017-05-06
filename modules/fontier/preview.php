@@ -48,8 +48,8 @@
 	}
 		
 	if ($fontierConfigsList['htaccess']) {
-		if (!strpos($font->getPreviewURL('id', $_GET['format']), $_SERVER['REQUEST_URI'])) {
-			header('Location: ' . $font->getPreviewURL('id', $_GET['format']));
+		if (!strpos($font->getPreviewURL($_GET['format']), $_SERVER['REQUEST_URI'])) {
+			header('Location: ' . $font->getPreviewURL($_GET['format']));
 			exit(0);
 		}
 	}

@@ -19,7 +19,10 @@ If you are using .htaccess with apache there is a mod-rewrite function in the pr
     RewriteRule ^fontier/([0-9]+)/([0-9]+)/(.*?)/index.html 	./modules/fontier/index.php?start=$1&limit=$2&base=$3 	[L,NC,QSA]
     RewriteRule ^fontier/uploads.html$                      	./modules/fontier/uploads.php                          	[L,NC,QSA]
     RewriteRule ^fontier/releases.html$                     	./modules/fontier/releases.php                         	[L,NC,QSA]
-    RewriteRule ^fontier/(.*?)                          	./modules/fontier/$1                            	[L,NC,QSA]
+    RewriteRule ^fontier/naming/([0-9]+).(png|jpg|gif)          ./modules/fontier/naming/$1.$2           		[L,NC,QSA]
+    RewriteRule ^fontier/preview/([0-9]+).(png|jpg|gif)         ./modules/fontier/preview/$1.$2          		[L,NC,QSA]
+    RewriteRule ^fontier/glyph/([0-9]+)-([0-9]+).(png|jpg|gif)  ./modules/fontier/glyph/$1-$2.$3     			[L,NC,QSA]
+    RewriteRule ^fontier/font/([0-9]+)/(.*?).html      		./modules/fontier/font.php?id=$1			[L,NC,QSA]
 
 ## Maintenance & Scheduled Actions
 
