@@ -53,9 +53,11 @@
 	$GLOBALS['xoTheme']->addScript(XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js");
 	$GLOBALS['xoTheme']->addScript(XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.ui.js");
 	$GLOBALS['xoTheme']->addStylesheet(XOOPS_URL . "/modules/" . _MD_FONTIER_MODULE_DIRNAME . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/style.css');
-	
+	$GLOBALS['xoTheme']->addStylesheet($font->getCSSURL());
+
 	$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', 'Font: ' . $font->getVar('name'));
 	$GLOBALS['xoopsTpl']->assign('tags', $fontierConfigsList['tags']);
+	$GLOBALS['xoopsTpl']->assign('identity', $font->getVar('identity'));	
 	$GLOBALS['xoopsTpl']->assign('name', $font->getVar('name'));
 	$GLOBALS['xoopsTpl']->assign('views', $font->getVar('views'));
 	$GLOBALS['xoopsTpl']->assign('downloads', $font->getVar('downloads'));

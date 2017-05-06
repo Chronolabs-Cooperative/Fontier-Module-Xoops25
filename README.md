@@ -1,4 +1,4 @@
-# Fontier+ 1.02
+# Fontier+ 1.03
 ## Client for Chronolabs Cooperative ~ Fonting Repository Services API
 ### Author: Simon Antony Roberts (Sydney) <wishcraft@users.sourceforge.net>
 

@@ -30,6 +30,7 @@ define('_MN_FONTIER_FONT_FONTS_H1', 'Fonts in this Base Characters!');
 define('_MN_FONTIER_FONT_PREVIEW_H1','Font preview for');
 define('_MN_FONTIER_FONT_DOWNLOADING_H1','Font downloads for');
 define('_MN_FONTIER_FONT_GLYPHS_H2','Font glyphs for');
+define('_MN_FONTIER_FONT_TYPING_H2','Attempt typing the font');
 define('_MN_FONTIER_FONT_CSS_H2','Font CSS examples for');
 define('_MN_FONTIER_FONT_CSS_P1','This is the first example for the font css, you include this CSS in any stylesheet you want to import the font of the API!');
 define('_MN_FONTIER_FONT_CSS_P2','This is the second example for the font css, you include this CSS in any stylesheet you want to import the font of the API!');

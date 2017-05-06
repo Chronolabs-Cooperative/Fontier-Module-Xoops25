@@ -43,7 +43,7 @@ define('_MD_FONTIER_MENU_UPLOADS', 'Upload Fonts to API');
 define('_MD_FONTIER_MENU_RELEASES', 'Subscribe to Releases');
 // Module definition headers for xoops_version.php
 define('_MD_FONTIER_MODULE_NAME','Fontier+');
-define('_MD_FONTIER_MODULE_VERSION','1.02');
+define('_MD_FONTIER_MODULE_VERSION','1.03');
 define('_MD_FONTIER_MODULE_RELEASEDATE','01-05-2017');
 define('_MD_FONTIER_MODULE_STATUS','release');
 define('_MD_FONTIER_MODULE_DESCRIPTION','Font browser for Chronolabs Font API!');
