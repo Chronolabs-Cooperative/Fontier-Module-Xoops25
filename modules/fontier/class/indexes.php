@@ -108,7 +108,7 @@ class fontierIndexes extends fontierXoopsObject
     	global $fontierConfigsList;
     	
     	if ($fontierConfigsList['htaccess']) {
-    		return XOOPS_URL . '/' . $fontierConfigsList['base'] . '/index/0/30/' . urlencode($this->getVar('base')) . '.' . $fontierConfigsList['html'];
+    		return XOOPS_URL . '/' . $fontierConfigsList['base'] . '/0/30/' . urlencode($this->getVar('base')) . '/index.' . $fontierConfigsList['html'];
     	}
     	return XOOPS_URL . '/modules/' . _MD_FONTIER_MODULE_DIRNAME. '/?op=index&start=0&limit=30&base=' . urlencode($this->getVar('base'));
     }
@@ -266,7 +266,7 @@ class fontierIndexesHandler extends fontierXoopsObjectHandler
     	$limit = !isset($_GET['limit'])?30:(integer)$_GET['limit'];
     		
     	if ($fontierConfigsList['htaccess']) {
-    		return XOOPS_URL . '/' . $fontierConfigsList['base'] . '/index/0/'.$limit.'/' . urlencode($base) . '.' . $fontierConfigsList['html'];
+    		return XOOPS_URL . '/' . $fontierConfigsList['base'] . '/0/'.$limit.'/' . urlencode($base) . '/index.' . $fontierConfigsList['html'];
     	}
     	return XOOPS_URL . '/modules/' . _MD_FONTIER_MODULE_DIRNAME. '/?op=index&start=0&limit=30&base=' . urlencode($base);
     }
