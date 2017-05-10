@@ -200,10 +200,23 @@ if (!function_exists("getFontNameTags")) {
 		$tag = '';
 		for($s=0;$s<strlen($name);$s++)
 		{
-			if (strlen($tag)>0 && in_array(substr($name, $s, 1), array('-',' ')) ||(substr($name, $s, 1) == strtoupper(substr($name, $s, 1)) && (substr($name, $s, 1) == strtolower(substr($name, $s-1, 1)))) || (is_numeric(substr($name, $s, 1)) && !is_numeric(substr($name, $s-1, 1))))
+			for($s=0;$s<strlen($name);$s++)
 			{
-				$tags[] = $tag;
-				$tag = '';
+				if (strlen($tag)>0 && in_array(substr($name, $s, 1), array('-',' ')))
+				{
+					$tags[] = $tag;
+					$tag = '';
+				} elseif (substr($name, $s, 1) == strtoupper(substr($name, $s, 1) && ((substr($name, $s-1, 1) == strtolower(substr($name, $s-1, 1))) || (substr($name, $s+1, 1) == strtolower(substr($name, $s-1, 1))))))
+				{
+					$tags[] = $tag;
+					$tag = '';
+				} elseif ((is_numeric(substr($name, $s, 1)) && !is_numeric(substr($name, $s-1, 1))))
+				{
+					$tags[] = $tag;
+					$tag = '';
+				}
+				if (!in_array(substr($name, $s, 1), array('-',' ')))
+					$tag .=substr($name, $s, 1);
 			}
 			if (!in_array(substr($name, $s, 1), array('-',' ')))
 				$tag .=substr($name, $s, 1);
