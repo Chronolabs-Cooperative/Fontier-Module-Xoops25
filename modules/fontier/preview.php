@@ -49,7 +49,7 @@
 		
 	header('Context-type: image/'.$_GET['format']);
 	xoops_load('XoopsCache');
-	if (!$data = XoopsCache::read($cachekey = _MD_FONTIER_MODULE_DIRNAME . "-preview-".md5($_GET['id'].$_GET['format'])))
+	if (!$data = XoopsCache::read($cachekey = _MD_FONTIER_MODULE_DIRNAME . "-preview-".md5($_GET['id'].$_GET['format'])) && !(isset($data['image']) && !empty($data['image'])))
 	{
 		// API Load Balancing
 		if ($fontierConfigsList['api_min_sleep']>0 && $fontierConfigsList['api_max_sleep']>0 && $fontierConfigsList['api_min_sleep']<$fontierConfigsList['api_max_sleep'])
